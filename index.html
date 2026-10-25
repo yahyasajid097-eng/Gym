@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#171717">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>برنامج يحيى للياقة</title>
+<style>
+:root{--ink:#171717;--forest:#06110C;--crimson:#A31C1B;--cream:#F2EDE6;--mute:#9aa39d;--line:#1f2d26}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ink);color:var(--cream);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",system-ui,sans-serif;line-height:1.7;padding:max(14px,env(safe-area-inset-top)) 14px calc(84px + env(safe-area-inset-bottom));max-width:640px;margin:0 auto}
+h1{font-size:1.5rem;margin:6px 0 2px}
+h2{font-size:1.15rem;margin:14px 0 8px}
+.sub{color:var(--mute);margin:0 0 12px;font-size:.92rem}
+.card,.ex{background:var(--forest);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.ex.done{border-color:var(--crimson)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px}
+.chips button{flex:0 0 auto;background:var(--forest);color:var(--cream);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:inherit}
+.chips button[aria-pressed=true]{background:var(--crimson);border-color:var(--crimson)}
+.exh{display:flex;gap:10px}
+.pic{flex:0 0 84px;height:84px;border-radius:10px;background:var(--ink);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.7rem;color:var(--mute);text-align:center;padding:4px}
+.pic img{width:100%;height:100%;object-fit:cover}
+.pic svg{width:30px;height:30px;stroke:var(--crimson);fill:none;stroke-width:2.2}
+.nm{font-weight:700}
+.sr{color:var(--crimson);font-weight:700;font-size:.95rem}
+.sm{color:var(--mute);font-size:.85rem}
+.row{display:flex;gap:8px;margin-top:8px;align-items:flex-end}
+label{flex:1;font-size:.8rem;color:var(--mute);display:block}
+input,select{width:100%;background:var(--ink);color:var(--cream);border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit;font-size:16px}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--cream);outline-offset:2px}
+.chk{flex:0 0 46px;height:46px;border-radius:10px;border:2px solid var(--crimson);background:transparent;color:var(--cream);font-size:1.2rem}
+.done .chk{background:var(--crimson)}
+.act{background:var(--crimson);color:var(--cream);border:0;border-radius:10px;padding:11px 16px;font:inherit;width:100%}
+.act.g{background:transparent;border:1px solid var(--line);color:var(--mute)}
+a{color:var(--cream)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.big{font-size:1.6rem;font-weight:700}
+.bar{height:10px;background:var(--ink);border-radius:6px;overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;background:var(--crimson);width:0}
+.it{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:7px 0;font-size:.92rem;gap:8px}
+.it button{background:none;border:0;color:var(--crimson);font-size:1.2rem;padding:4px 10px}
+nav{position:fixed;inset:auto 0 0 0;background:var(--forest);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;border:0;color:var(--mute);font:inherit;padding:14px 4px}
+nav button[aria-pressed=true]{color:var(--cream);box-shadow:inset 0 3px 0 var(--crimson)}
+ol{padding-inline-start:20px;margin:6px 0}
+</style>
+</head>
+<body>
+<h1>برنامج يحيى للياقة</h1>
+<p class="sub">إعادة تركيب الجسم: خسارة دهون وبناء عضل</p>
+<main id="v"></main>
+<nav id="nv"></nav>
+<script>
+var X=[0,
+["ضغط صدر دمبل","dumbbell bench press","الصدر","8-10","كتفان للخلف ونزول متحكم","ضغط صدر بجهاز"],
+["سحب كابل جالس","seated cable row","الظهر","10-12","اسحب المرفقين للخلف","رو دمبل"],
+["ضغط كتف دمبل","dumbbell shoulder press","الكتف","8-10","بطن مشدود دون تقوس","ضغط كتف بجهاز"],
+["سحب علوي","lat pulldown","الظهر","10-12","اسحب إلى أعلى الصدر","سحب بحبل"],
+["ترايسبس كابل","triceps pushdown","الذراع","12-15","مرفقان ثابتان","ديبس بجهاز"],
+["بايسبس دمبل","dumbbell curl","الذراع","12-15","دون تأرجح","كيرل كابل"],
+["سكوات بار","barbell squat","الأرجل","6-8","عمق مريح وظهر محايد","ليج برس"],
+["رومانيان ديدلفت","romanian deadlift","الأرجل","8-10","الورك للخلف وظهر مستقيم","ديدلفت دمبل"],
+["ليج برس","leg press","الأرجل","10-12","لا تقفل الركبتين","هاك سكوات"],
+["ليج كيرل","lying leg curl","الأرجل","10-12","نزول بطيء","كيرل جالس"],
+["سمانة","calf raise","الأرجل","12-15","مدى كامل","سمانة واقف"],
+["بلانك","plank","البطن","30-45ث","جسم مستقيم","بلانك جانبي"],
+["ضغط صدر مائل دمبل","incline dumbbell press","الصدر","8-12","مقعد مائل 30°","ضغط مائل بجهاز"],
+["سحب علوي بقبضة ضيقة","close grip lat pulldown","الظهر","8-10","اسحب المرفقين للأسفل","سحب بمقبض V"],
+["رو بجهاز","chest supported row","الظهر","10-12","صدر ملتصق بالمقعد","رو دمبل"],
+["رفع جانبي","lateral raise","الكتف","12-15","ارفع حتى مستوى الكتف","رفع جانبي كابل"],
+["فيس بول","face pull","الكتف","15","اسحب نحو الوجه","ريفرس فلاي"],
+["بيك ديك","pec deck","الصدر","12-15","حركة بطيئة متحكمة","فلاي دمبل"],
+["سبليت سكوات بلغاري","bulgarian split squat","الأرجل","8-10 لكل رجل","ركبة أمامية ثابتة","لانج ثابت"],
+["هيب ثراست","hip thrust","الأرجل","8-12","اعصر الأرداف في الأعلى","جلوت بريدج"],
+["ليج إكستنشن","leg extension","الأرجل","12-15","نزول بطيء","سكوات بجهاز"],
+["كرانش كابل","cable crunch","البطن","12-15","قوّس العمود الفقري","كرانش أرضي"]];
+var D=[{d:"الاثنين",t:"علوي A",e:[[1,3],[2,3],[3,3],[4,3],[5,2],[6,2]]},
+{d:"الثلاثاء",t:"سفلي A",e:[[7,3],[8,3],[9,3],[10,3],[11,3],[12,3]]},
+{d:"الخميس",t:"علوي B",e:[[13,3],[14,3],[15,3],[16,3],[17,2],[18,2]]},
+{d:"الجمعة",t:"سفلي B",e:[[19,3],[20,3],[21,2],[10,3],[11,3],[22,3]]},
+{d:"السبت",t:"كارديو خفيف",c:1}];
+var F=[["بيضة (حبة)",143,12.6,.7,9.5,"حبة",50],["صدر دجاج مطبوخ",165,31,0,3.6],["صدر دجاج نيء",120,22.5,0,2.6],["فخذ دجاج مطبوخ بلا جلد",209,26,0,11],["تونة معلبة في الماء",116,26,0,1],["كفتة لحم نيئة",250,17,1,20],["أرز مطبوخ",130,2.7,28,.3],["خبز",265,9,49,3],["عدس مطبوخ",116,9,20,.4],["حمص مطبوخ",164,8.9,27,2.6],["بطاطس مسلوقة",87,1.9,20,.1],["شوفان جاف",389,17,66,7],["موز",89,1.1,23,.3],["زبادي سادة",61,3.5,4.7,3.3],["زيت زيتون (ملعقة)",884,0,0,100,"ملعقة",14],["خضار مشكلة",25,1.5,5,.2]];
+var S={log:{},food:{date:"",items:[]},p:{w:85,h:178,a:26,s:"m",act:1.375,g:.85}};
+try{var q=localStorage.getItem("yfit");if(q)S=Object.assign(S,JSON.parse(q))}catch(e){}
+function sv(){try{localStorage.setItem("yfit",JSON.stringify(S))}catch(e){}}
+var today=new Date().toLocaleDateString("en-CA");
+if(S.food.date!==today)S.food={date:today,items:[]};
+var V="t",cur=({1:0,2:1,4:2,5:3,6:4})[new Date().getDay()]||0;
+var v=document.getElementById("v");
+function E(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+var DB='<svg viewBox="0 0 24 24"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/></svg>';
+function nav(){var n=document.getElementById("nv");n.innerHTML="";[["t","التدريب"],["f","التغذية"],["i","التثبيت"]].forEach(function(x){var b=E("button","",x[1]);b.setAttribute("aria-pressed",V===x[0]);b.onclick=function(){V=x[0];draw()};n.appendChild(b)})}
+function train(){
+var c=E("div","chips");D.forEach(function(x,i){var b=E("button","",x.d);b.setAttribute("aria-pressed",i===cur);b.onclick=function(){cur=i;draw()};c.appendChild(b)});v.appendChild(c);
+var x=D[cur];v.appendChild(E("h2","",x.d+": "+x.t));
+if(x.c){v.appendChild(E("div","card","30-40 دقيقة بجهد تستطيع معه الكلام: مشي سريع أو دراجة. الأربعاء والأحد راحة مع مشي."));return}
+v.appendChild(E("div","card sm","الأسبوعان الأولان: مجموعتان لكل تمرين بأوزان أخف. أوقف كل مجموعة وفي خزانك تكراران تقريبًا. الراحة 2-3 دقائق للتمارين الكبيرة و60-90 ثانية للعزل. ارفع الوزن عندما تبلغ أعلى التكرارات في كل المجموعات بتقنية سليمة."));
+x.e.forEach(function(p){
+var id=p[0],a=X[id],k=cur+"-"+id,r=S.log[k]||{};
+var el=E("div","ex"+(r.done?" done":""));
+var h=E("div","exh");var pic=E("div","pic");var im=new Image();im.alt=a[0];im.src="img/ex"+id+".jpg";
+im.onload=function(){pic.innerHTML="";pic.appendChild(im)};
+pic.innerHTML=DB+a[2]+"<br>img/ex"+id+".jpg";
+var inf=E("div","");inf.appendChild(E("div","nm",a[0]));inf.appendChild(E("div","sr",p[1]+"×"+a[3]));inf.appendChild(E("div","sm",a[4]));inf.appendChild(E("div","sm","البديل: "+a[5]));
+var l=E("a","sm","صور الحركة (تحتاج إنترنت)");l.href="https://www.google.com/search?tbm=isch&q="+encodeURIComponent(a[1]+" exercise");l.target="_blank";l.rel="noopener";inf.appendChild(l);
+h.appendChild(pic);h.appendChild(inf);el.appendChild(h);
+var row=E("div","row",'<label>الوزن (كجم)<input type="number" step="0.5" inputmode="decimal"></label><label>التكرارات<input type="text" placeholder="10، 9، 8"></label><button class="chk" aria-label="تم">'+(r.done?"✓":"")+'</button>');
+var ins=row.querySelectorAll("input");ins[0].value=r.w||"";ins[1].value=r.r||"";
+[["w",ins[0]],["r",ins[1]]].forEach(function(z){z[1].oninput=function(){(S.log[k]=S.log[k]||{})[z[0]]=z[1].value;sv()}});
+row.querySelector(".chk").onclick=function(){var o=S.log[k]=S.log[k]||{};o.done=!o.done;sv();draw()};
+el.appendChild(row);v.appendChild(el)});
+var b=E("button","act g","حصة جديدة: إزالة العلامات");b.onclick=function(){x.e.forEach(function(p){var o=S.log[cur+"-"+p[0]];if(o)o.done=false});sv();draw()};v.appendChild(b)}
+function calc(){var p=S.p,bmr=10*p.w+6.25*p.h-5*p.a+(p.s==="m"?5:-161),tdee=bmr*p.act,kc=Math.round(tdee*p.g),pr=Math.round(1.8*p.w),fa=Math.round(.8*p.w),cb=Math.max(0,Math.round((kc-pr*4-fa*9)/4));return{bmr:Math.round(bmr),tdee:Math.round(tdee),kc:kc,pr:pr,fa:fa,cb:cb}}
+function food(){
+var p=S.p;v.appendChild(E("h2","","حاسبة السعرات"));
+var c=E("div","card");c.innerHTML='<div class="row"><label>الوزن<input id="w" type="number" inputmode="decimal"></label><label>الطول<input id="h" type="number"></label><label>العمر<input id="a" type="number"></label></div><div class="row"><label>الجنس<select id="s"><option value="m">ذكر</option><option value="f">أنثى</option></select></label><label>النشاط<select id="act"><option value="1.375">خفيف: 1-3 حصص</option><option value="1.55">معتدل: 3-5 حصص</option><option value="1.725">عالٍ: 6-7 حصص</option></select></label></div><div class="row"><label>الهدف<select id="g"><option value="0.85">خسارة دهون وبناء عضل (-15%)</option><option value="0.75">خسارة أسرع (-25%)</option><option value="1">ثبات الوزن</option></select></label></div>';
+v.appendChild(c);
+[["w",p.w],["h",p.h],["a",p.a],["s",p.s],["act",p.act],["g",p.g]].forEach(function(z){var i=c.querySelector("#"+z[0]);i.value=z[1];i.onchange=i.oninput=function(){S.p[z[0]]=(z[0]==="s")?i.value:parseFloat(i.value)||0;sv();res()}});
+var rs=E("div","card");v.appendChild(rs);
+v.appendChild(E("h2","","طعام اليوم"));
+var f=E("div","card");f.innerHTML='<div class="row"><label>الطعام<select id="fs"></select></label><label id="fl">الكمية (غرام)<input id="fa" type="number" inputmode="decimal" value="100"></label></div><div class="row"><button class="act" id="ad">إضافة</button></div><div id="li"></div>';
+v.appendChild(f);
+var fs=f.querySelector("#fs");F.forEach(function(x,i){fs.appendChild(new Option(x[0],i))});
+function lab(){var x=F[fs.value];f.querySelector("#fl").firstChild.textContent="الكمية ("+(x[5]||"غرام")+")";f.querySelector("#fa").value=x[5]?1:100}
+fs.onchange=lab;lab();
+f.querySelector("#ad").onclick=function(){var a=parseFloat(f.querySelector("#fa").value);if(!a)return;S.food.items.push({i:+fs.value,a:a});sv();res()};
+function res(){var c=calc(),t={k:0,p:0,c:0,f:0},li=f.querySelector("#li");li.innerHTML="";
+S.food.items.forEach(function(it,n){var x=F[it.i],g=it.a*(x[6]||1),m=g/100;t.k+=x[1]*m;t.p+=x[2]*m;t.c+=x[3]*m;t.f+=x[4]*m;
+var d=E("div","it","<span>"+x[0]+" × "+it.a+" ("+Math.round(x[1]*m)+" سعرة)</span>");var b=E("button","","×");b.setAttribute("aria-label","حذف");b.onclick=function(){S.food.items.splice(n,1);sv();res()};d.appendChild(b);li.appendChild(d)});
+function pc(a,b){return Math.min(100,b?a/b*100:0)}
+rs.innerHTML='<div class="sm">حرق الراحة '+c.bmr+' | الحرق اليومي '+c.tdee+'</div><div class="big">'+c.kc+' سعرة</div><div class="grid"><div>بروتين '+c.pr+' غ</div><div>دهون '+c.fa+' غ</div><div>كربوهيدرات '+c.cb+' غ</div></div><h2>المتناول اليوم</h2><div>السعرات: '+Math.round(t.k)+' / '+c.kc+'</div><div class="bar"><i style="width:'+pc(t.k,c.kc)+'%"></i></div><div>البروتين: '+Math.round(t.p)+' / '+c.pr+' غ</div><div class="bar"><i style="width:'+pc(t.p,c.pr)+'%"></i></div><div class="sm">كربوهيدرات '+Math.round(t.c)+' غ | دهون '+Math.round(t.f)+' غ. القيم تقريبية، والأوزان للنيء أو المطبوخ كما في الاسم.</div>'}
+res();
+var b=E("button","act g","بدء يوم جديد");b.onclick=function(){S.food.items=[];sv();res()};f.appendChild(b)}
+var dp=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;if(V==="i")draw()});
+function inst(){
+v.appendChild(E("h2","","تثبيت التطبيق على الهاتف"));
+var c=E("div","card","التثبيت وعمل التطبيق بدون إنترنت يحتاجان رفع الملفات مرة واحدة إلى موقع آمن (https) مثل GitHub Pages، ثم فتح الرابط في الهاتف.<ol><li>أندرويد (Chrome): القائمة ⋮ ثم «تثبيت التطبيق».</li><li>آيفون (Safari): زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».</li><li>افتحه مرة واحدة بالإنترنت، وبعدها يعمل بدونه.</li></ol>");
+if(dp){var b=E("button","act","تثبيت الآن");b.onclick=function(){dp.prompt();dp=null;draw()};c.appendChild(b)}
+v.appendChild(c);
+v.appendChild(E("h2","","صور التمارين"));
+v.appendChild(E("div","card","ضع صورك داخل مجلد img بأسماء ex1.jpg إلى ex22.jpg، فتظهر تلقائيًا بجانب كل تمرين. اسم الملف المطلوب مكتوب في مكان كل صورة ناقصة.")); }
+function draw(){v.innerHTML="";nav();({t:train,f:food,i:inst})[V]();window.scrollTo(0,0)}
+draw();
+if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0)navigator.serviceWorker.register("sw.js").catch(function(){});
+</script>
+</body>
+</html>
