@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#171717">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>برنامج اللياقة</title>
+<style>
+:root{--ink:#171717;--forest:#06110C;--crimson:#A31C1B;--cream:#F2EDE6;--mute:#9aa39d;--line:#1f2d26}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ink);color:var(--cream);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",system-ui,sans-serif;line-height:1.7;padding:max(14px,env(safe-area-inset-top)) 14px calc(140px + env(safe-area-inset-bottom));max-width:640px;margin:0 auto}
+h1{font-size:1.5rem;margin:6px 0 2px}
+h2{font-size:1.15rem;margin:14px 0 8px}
+.sub{color:var(--mute);margin:0 0 12px;font-size:.92rem}
+.card,.ex{background:var(--forest);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.ex.done{border-color:var(--crimson)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px}
+.chips button{flex:0 0 auto;background:var(--forest);color:var(--cream);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:inherit}
+.chips button[aria-pressed=true]{background:var(--crimson);border-color:var(--crimson)}
+.exh{display:flex;gap:10px}
+.pic{flex:0 0 84px;height:84px;border-radius:10px;background:var(--ink);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.7rem;color:var(--mute);text-align:center;padding:4px}
+.pic img{width:100%;height:100%;object-fit:cover}
+.pic svg{width:30px;height:30px;stroke:var(--crimson);fill:none;stroke-width:2.2}
+.nm{font-weight:700}
+.sr{color:var(--crimson);font-weight:700;font-size:.95rem}
+.sm{color:var(--mute);font-size:.85rem}
+.row{display:flex;gap:8px;margin-top:8px;align-items:flex-end}
+label{flex:1;font-size:.8rem;color:var(--mute);display:block}
+input,select{width:100%;background:var(--ink);color:var(--cream);border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit;font-size:16px}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--cream);outline-offset:2px}
+.chk{flex:0 0 46px;height:46px;border-radius:10px;border:2px solid var(--crimson);background:transparent;color:var(--cream);font-size:1.2rem}
+.done .chk{background:var(--crimson)}
+.act{background:var(--crimson);color:var(--cream);border:0;border-radius:10px;padding:11px 16px;font:inherit;width:100%}
+.act.g{background:transparent;border:1px solid var(--line);color:var(--mute)}
+a{color:var(--cream)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.big{font-size:1.6rem;font-weight:700}
+.bar{height:10px;background:var(--ink);border-radius:6px;overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;background:var(--crimson);width:0}
+.it{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:7px 0;font-size:.92rem;gap:8px}
+.it button{background:none;border:0;color:var(--crimson);font-size:1.2rem;padding:4px 10px}
+nav{position:fixed;inset:auto 0 0 0;background:var(--forest);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;border:0;color:var(--mute);font:inherit;padding:14px 4px}
+nav button[aria-pressed=true]{color:var(--cream);box-shadow:inset 0 3px 0 var(--crimson)}
+ol{padding-inline-start:20px;margin:6px 0}
+#bar{position:fixed;inset:auto 0 calc(56px + env(safe-area-inset-bottom)) 0;background:var(--ink);border-top:1px solid var(--crimson);display:flex;gap:8px;align-items:center;padding:6px 12px;z-index:5;max-width:640px;margin:0 auto}#bar b{flex:1;color:var(--crimson);font-size:.9rem}#bar button{background:var(--crimson);color:var(--cream);border:0;border-radius:8px;padding:8px 12px;font:inherit}#ck{font-variant-numeric:tabular-nums}.sr2{align-items:center;gap:6px}.sr2 input,.sr2 select{padding:8px 4px;min-width:0;text-align:center}.sr2 select{flex:0 0 62px}.sn{width:18px;color:var(--mute)}.on input,.on select{border-color:var(--crimson)}.chk{flex:0 0 44px}</style>
+</head>
+<body>
+<h1 id="h1"></h1>
+<p class="sub" id="su"></p>
+<main id="v"></main>
+<div id="bar"></div>
+<nav id="nv"></nav>
+<script>
+var X=[0,
+["ضغط صدر دمبل","dumbbell bench press","الصدر","8-10","كتفان للخلف ونزول متحكم","ضغط صدر بجهاز"],
+["سحب كابل جالس","seated cable row","الظهر","10-12","اسحب المرفقين للخلف","رو دمبل"],
+["ضغط كتف دمبل","dumbbell shoulder press","الكتف","8-10","بطن مشدود دون تقوس","ضغط كتف بجهاز"],
+["سحب علوي","lat pulldown","الظهر","10-12","اسحب إلى أعلى الصدر","سحب بحبل"],
+["ترايسبس كابل","triceps pushdown","الذراع","12-15","مرفقان ثابتان","ديبس بجهاز"],
+["بايسبس دمبل","dumbbell curl","الذراع","12-15","دون تأرجح","كيرل كابل"],
+["سكوات بار","barbell squat","الأرجل","6-8","عمق مريح وظهر محايد","ليج برس"],
+["رومانيان ديدلفت","romanian deadlift","الأرجل","8-10","الورك للخلف وظهر مستقيم","ديدلفت دمبل"],
+["ليج برس","leg press","الأرجل","10-12","لا تقفل الركبتين","هاك سكوات"],
+["ليج كيرل","lying leg curl","الأرجل","10-12","نزول بطيء","كيرل جالس"],
+["سمانة","calf raise","الأرجل","12-15","مدى كامل","سمانة واقف"],
+["بلانك","plank","البطن","30-45ث","جسم مستقيم","بلانك جانبي"],
+["ضغط صدر مائل دمبل","incline dumbbell press","الصدر","8-12","مقعد مائل 30°","ضغط مائل بجهاز"],
+["سحب علوي بقبضة ضيقة","close grip lat pulldown","الظهر","8-10","اسحب المرفقين للأسفل","سحب بمقبض V"],
+["رو بجهاز","chest supported row","الظهر","10-12","صدر ملتصق بالمقعد","رو دمبل"],
+["رفع جانبي","lateral raise","الكتف","12-15","ارفع حتى مستوى الكتف","رفع جانبي كابل"],
+["فيس بول","face pull","الكتف","15","اسحب نحو الوجه","ريفرس فلاي"],
+["بيك ديك","pec deck","الصدر","12-15","حركة بطيئة متحكمة","فلاي دمبل"],
+["سبليت سكوات بلغاري","bulgarian split squat","الأرجل","8-10 لكل رجل","ركبة أمامية ثابتة","لانج ثابت"],
+["هيب ثراست","hip thrust","الأرجل","8-12","اعصر الأرداف في الأعلى","جلوت بريدج"],
+["ليج إكستنشن","leg extension","الأرجل","12-15","نزول بطيء","سكوات بجهاز"],
+["كرانش كابل","cable crunch","البطن","12-15","قوّس العمود الفقري","كرانش أرضي"]];
+var D=[{d:"الاثنين",t:"دفع Push",e:[[23,4],[13,3],[3,3],[16,4],[5,3],[24,3]]},
+{d:"الثلاثاء",t:"سحب Pull",e:[[4,3],[25,3],[2,3],[17,3],[6,3],[26,2],[11,3]]},
+{d:"الخميس",t:"سفلي Lower",e:[[7,4],[8,3],[27,3],[10,3],[20,3],[11,3]]},
+{d:"الجمعة",t:"علوي Upper",e:[[28,3],[4,3],[15,3],[29,2],[16,3],[30,2],[5,2],[9,2],[10,2]]},
+{d:"السبت",t:"كارديو خفيف",c:1}];
+var F=[["بيضة (حبة)",143,12.6,.7,9.5,"حبة",50],["صدر دجاج مطبوخ",165,31,0,3.6],["صدر دجاج نيء",120,22.5,0,2.6],["فخذ دجاج مطبوخ بلا جلد",209,26,0,11],["تونة معلبة في الماء",116,26,0,1],["كفتة لحم نيئة",250,17,1,20],["أرز مطبوخ",130,2.7,28,.3],["خبز",265,9,49,3],["عدس مطبوخ",116,9,20,.4],["حمص مطبوخ",164,8.9,27,2.6],["بطاطس مسلوقة",87,1.9,20,.1],["شوفان جاف",389,17,66,7],["موز",89,1.1,23,.3],["زبادي سادة",61,3.5,4.7,3.3],["زيت زيتون (ملعقة)",884,0,0,100,"ملعقة",14],["خضار مشكلة",25,1.5,5,.2]];
+var XE=[0,
+["Dumbbell bench press","Chest","Shoulders back, controlled lowering","Machine chest press"],
+["Seated cable row","Back","Pull elbows back","Dumbbell row"],
+["Dumbbell shoulder press","Shoulders","Brace core, no arching","Machine shoulder press"],
+["Lat pulldown","Back","Pull to upper chest","Rope pulldown"],
+["Triceps pushdown","Arms","Elbows fixed","Machine dips"],
+["Dumbbell curl","Arms","No swinging","Cable curl"],
+["Barbell squat","Legs","Comfortable depth, neutral back","Leg press"],
+["Romanian deadlift","Legs","Hips back, straight back","Dumbbell deadlift"],
+["Leg press","Legs","Do not lock knees","Hack squat"],
+["Lying leg curl","Legs","Slow lowering","Seated curl"],
+["Calf raise","Legs","Full range","Standing calf raise"],
+["Plank","Core","Straight body line","Side plank"],
+["Incline dumbbell press","Chest","Bench at 30°","Machine incline press"],
+["Close grip lat pulldown","Back","Pull elbows down","V-handle pulldown"],
+["Chest supported row","Back","Chest on the pad","Dumbbell row"],
+["Lateral raise","Shoulders","Raise to shoulder height","Cable lateral raise"],
+["Face pull","Shoulders","Pull toward face","Reverse fly"],
+["Pec deck","Chest","Slow and controlled","Dumbbell fly"],
+["Bulgarian split squat","Legs","Front knee stable","Static lunge"],
+["Hip thrust","Legs","Squeeze glutes at the top","Glute bridge"],
+["Leg extension","Legs","Slow lowering","Machine squat"],
+["Cable crunch","Core","Curl the spine","Floor crunch"]];
+var DE=[["Monday","Push"],["Tuesday","Pull"],["Thursday","Lower"],["Friday","Upper"],["Saturday","Light cardio"]];
+var FE=["Egg (piece)","Chicken breast, cooked","Chicken breast, raw","Chicken thigh, cooked, skinless","Canned tuna in water","Raw beef kefta","Rice, cooked","Bread","Lentils, cooked","Chickpeas, cooked","Potato, boiled","Oats, dry","Banana","Plain yogurt","Olive oil (tbsp)","Mixed vegetables"];
+var UE={"حبة":"piece","ملعقة":"tbsp"};
+
+X[23]=["ضغط صدر بار","barbell bench press","الصدر","6-8","قدمان ثابتتان وكتفان مشدودان","ضغط صدر دمبل"];XE[23]=["Barbell bench press","Chest","Feet planted, shoulders retracted","Dumbbell bench press"];
+X[24]=["ترايسبس فوق الرأس","overhead triceps extension","الذراع","10-15","مرفقان قريبان من الرأس","ترايسبس حبل"];XE[24]=["Overhead triceps extension","Arms","Elbows close to head","Rope pushdown"];
+X[25]=["رو بار","barbell row","الظهر","6-10","ظهر ثابت واسحب نحو البطن","رو دمبل"];XE[25]=["Barbell row","Back","Stable back, pull to stomach","Dumbbell row"];
+X[26]=["هامر كيرل","hammer curl","الذراع","10-15","قبضة محايدة دون تأرجح","كيرل بحبل"];XE[26]=["Hammer curl","Arms","Neutral grip, no swing","Rope curl"];
+X[27]=["لانج بالمشي","walking lunges","الأرجل","10 لكل رجل","خطوة طويلة وجذع مستقيم","لانج ثابت"];XE[27]=["Walking lunges","Legs","Long step, upright torso","Static lunge"];
+X[28]=["ضغط صدر مائل بار","incline barbell bench press","الصدر","6-10","مقعد مائل 30°","ضغط مائل دمبل"];XE[28]=["Incline barbell bench press","Chest","Bench at 30°","Incline dumbbell press"];
+X[29]=["كابل فلاي","cable fly","الصدر","12-15","مرفقان مثنيان قليلًا","بيك ديك"];XE[29]=["Cable fly","Chest","Slightly bent elbows","Pec deck"];
+X[30]=["بايسبس كابل","cable curl","الذراع","10-15","مرفقان ثابتان","كيرل دمبل"];XE[30]=["Cable curl","Arms","Elbows fixed","Dumbbell curl"];
+[[3,"8-12"],[5,"10-15"],[4,"6-10"],[2,"8-12"],[17,"12-15"],[6,"8-12"],[11,"12-20"],[7,"5-8"],[10,"10-15"],[15,"8-12"]].forEach(function(z){X[z[0]][3]=z[1]});
+var U={tr:["التدريب","Training"],fo:["التغذية","Nutrition"],ins:["التثبيت","Install"],
+cd:["30-40 دقيقة بجهد تستطيع معه الكلام: مشي سريع أو دراجة. الأربعاء والأحد راحة مع مشي.","30-40 minutes at an effort where you can still talk: brisk walk or bike. Wednesday and Sunday are rest days with walking."],
+nt:["أحمِ قبل كل تمرين ثقيل. RIR 2 في أغلب المجموعات. الراحة: 2-3 دقائق للثقيل و90 ثانية للمتوسط و60 للعزل. أول 3 أسابيع من أي مرحلة جديدة: مجموعتان في تمارين الذراعين والكتف الجانبي. ارفع الوزن عندما تبلغ أعلى التكرارات في كل المجموعات بتقنية سليمة.","Warm up before heavy lifts. RIR 2 on most sets. Rest 2-3 minutes for heavy lifts, 90 seconds for medium and 60 for isolation. First 3 weeks of any new phase: 2 sets for arms and lateral raises. Add weight when you hit the top reps on every set with good form."],
+al:["البديل: ","Alternative: "],pc:["صور الحركة (تحتاج إنترنت)","Movement images (needs internet)"],
+kg:["الوزن (كجم)","Weight (kg)"],rp:["التكرارات","Reps"],ph:["10، 9، 8","10, 9, 8"],dn:["تم","Done"],
+nw:["حصة جديدة: إزالة العلامات","New session: clear checks"],
+ca:["حاسبة السعرات","Calorie calculator"],w:["الوزن","Weight"],h:["الطول","Height"],a:["العمر","Age"],s:["الجنس","Sex"],m:["ذكر","Male"],f:["أنثى","Female"],ac:["النشاط","Activity"],
+a1:["خفيف: 1-3 حصص","Light: 1-3 sessions"],a2:["معتدل: 3-5 حصص","Moderate: 3-5 sessions"],a3:["عالٍ: 6-7 حصص","High: 6-7 sessions"],
+g:["الهدف","Goal"],g1:["خسارة دهون وبناء عضل (-15%)","Fat loss and muscle gain (-15%)"],g2:["خسارة أسرع (-25%)","Faster fat loss (-25%)"],g3:["ثبات الوزن","Maintain weight"],
+td:["طعام اليوم","Today's food"],fd:["الطعام","Food"],am:["الكمية","Amount"],gm:["غرام","g"],ad:["إضافة","Add"],kc:["سعرة","kcal"],
+bm:["حرق الراحة ","Resting burn "],tt:["الحرق اليومي ","Daily burn "],pr:["بروتين ","Protein "],fa:["دهون ","Fat "],cb:["كربوهيدرات ","Carbs "],
+ta:["المتناول اليوم","Eaten today"],ck:["السعرات: ","Calories: "],pk:["البروتين: ","Protein: "],gg:[" غ"," g"],
+ap:["القيم تقريبية، والأوزان للنيء أو المطبوخ كما في الاسم.","Values are approximate; weights are raw or cooked as named."],
+nd:["بدء يوم جديد","Start a new day"],dl:["حذف","Delete"],
+ih:["تثبيت التطبيق على الهاتف","Install on your phone"],
+it:["التثبيت وعمل التطبيق بدون إنترنت يحتاجان رفع الملفات مرة واحدة إلى موقع آمن (https) مثل GitHub Pages، ثم فتح الرابط في الهاتف.<ol><li>أندرويد (Chrome): القائمة ⋮ ثم «تثبيت التطبيق».</li><li>آيفون (Safari): زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».</li><li>افتحه مرة واحدة بالإنترنت، وبعدها يعمل بدونه.</li></ol>","Installing and offline use require uploading the files once to a secure (https) site such as GitHub Pages, then opening the link on your phone.<ol><li>Android (Chrome): menu ⋮ then “Install app”.</li><li>iPhone (Safari): Share button then “Add to Home Screen”.</li><li>Open it once online; afterwards it works without internet.</li></ol>"],
+now:["تثبيت الآن","Install now"],ih2:["صور التمارين","Exercise images"],
+it2:["ضع صورك داخل مجلد img بأسماء ex1.jpg إلى ex22.jpg، فتظهر تلقائيًا بجانب كل تمرين. اسم الملف المطلوب مكتوب في مكان كل صورة ناقصة.","Put your images in the img folder named ex1.jpg to ex22.jpg and they appear next to each exercise. The needed file name is shown in place of any missing image."],
+ti:["برنامج اللياقة","Fitness Plan"],su:["إعادة تركيب الجسم: خسارة دهون وبناء عضل","Body recomposition: lose fat and build muscle"]};
+function en(){return S.lang==="en"}
+function tr(k){return U[k][en()?1:0]}
+function rp(s){return en()?s.replace("ث","s").replace(" لكل رجل"," each leg"):s}
+function fn(i){return en()?FE[i]:F[i][0]}
+function un(u){return en()?UE[u]:u}
+var S={lang:"ar",h:{},dur:{},t0:0,st:{db:2.5,bar:5,mc:5},p:{w:85,h:178,a:26,s:"m",act:1.375,g:.85},food:{date:"",items:[]}};
+try{var q=localStorage.getItem("yfit");if(q)S=Object.assign(S,JSON.parse(q))}catch(e){}
+function sv(){try{localStorage.setItem("yfit",JSON.stringify(S))}catch(e){}}
+var today=new Date().toLocaleDateString("en-CA");
+if(S.food.date!==today)S.food={date:today,items:[]};
+S.m=S.m||[];S.adj=S.adj||0;S.prog=S.prog||"base";S.prev=S.prev||"base";S.pstart=S.pstart||today;S.sn=S.sn||"";if(S.st&&S.st.db===2)S.st.db=2.5;
+var V="t",cur=({1:0,2:1,4:2,5:3,6:4})[new Date().getDay()]||0;
+var v=document.getElementById("v");
+function E(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+var DB='<svg viewBox="0 0 24 24"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/></svg>';
+
+D.forEach(function(x,i){x.dn=DE[i][0];x.tn=DE[i][1]});
+var BASE=D,AD=["الاثنين","الثلاثاء","الخميس","الجمعة","السبت"],SAT=[4,"كارديو خفيف","Light cardio",0,1];
+function mk(a){return a.map(function(x){return{d:AD[x[0]],dn:DE[x[0]][0],t:x[1],tn:x[2],e:x[3],c:x[4]}})}
+var PR={base:function(){return BASE},
+deload:function(){return BASE.map(function(x){return x.c?x:{d:x.d,dn:x.dn,t:x.t+" (تخفيف)",tn:x.tn+" (deload)",e:x.e.map(function(z){return[z[0],2]})}})},
+b2:function(){return mk([[0,"علوي A","Upper A",[[13,3],[14,3],[3,3],[2,3],[17,2],[5,2]]],[1,"سفلي A","Lower A",[[9,3],[8,3],[19,3],[10,3],[11,3],[22,3]]],[2,"علوي B","Upper B",[[1,3],[4,3],[15,3],[16,3],[18,2],[6,2]]],[3,"سفلي B","Lower B",[[7,3],[20,3],[21,2],[10,3],[11,3],[12,3]]],SAT])},
+fb:function(){return mk([[0,"جسم كامل A","Full body A",[[7,3],[1,3],[2,3],[5,2],[12,3]]],[2,"جسم كامل B","Full body B",[[8,3],[13,3],[4,3],[3,3],[22,3]]],[4,"جسم كامل C","Full body C",[[9,3],[14,3],[19,3],[16,3],[11,3]]]])}};
+function bd(){var o=(S.ed||{})[S.prog]||{};return PR[S.prog]().map(function(x){return Object.assign({},x)}).map(function(x,i){if(o[i]&&x.e)x.e=o[i];return x})}
+D=bd();cur=Math.min(cur,D.length-1);
+Object.assign(U,{ck1:["قياس الأسبوع","Weekly check-in"],wt:["الوزن (كجم)","Weight (kg)"],wa:["الخصر (سم)","Waist (cm)"],sl:["متوسط النوم (ساعات)","Avg sleep (hours)"],adh:["الالتزام بالسعرات والبروتين (%)","Calorie and protein adherence (%)"],sv2:["حفظ القياس","Save check-in"],
+rem:["حان وقت قياس الأسبوع: الأحد صباحًا قبل الأكل. افتح تبويب التغذية.","Time for your weekly check-in: Sunday morning before eating. Open the Nutrition tab."],go2:["اذهب","Go"],
+r0:["سجّل قياسين على الأقل بينهما أسبوع ليبدأ التقييم.","Log at least two check-ins a week apart to start the review."],
+rA:["التزامك أقل من 70%: لا تغيّر السعرات الآن. التزم بالخطة أسبوعًا ثم أعد القياس.","Adherence is under 70%: do not change calories yet. Follow the plan for a week, then re-measure."],
+rF:["خسارتك أسرع من اللازم (أكثر من 0.8 كجم أسبوعيًا): ارفع السعرات قليلًا لحماية العضل والأداء.","Losing faster than needed (over 0.8 kg/week): raise calories slightly to protect muscle and performance."],
+rR:["الوزن ثابت والخصر ينقص: هذه إعادة تركيب ناجحة، لا تغيّر شيئًا.","Weight is steady and waist is shrinking: successful recomposition, change nothing."],
+rW:["الوزن شبه ثابت: انتظر أسبوعًا آخر قبل أي تعديل، فتذبذب الأسبوع الواحد طبيعي.","Weight is flat: wait one more week before changing anything, weekly swings are normal."],
+rS:["ركود أسبوعين: قلل السعرات قليلًا أو زد المشي حوالي 2000 خطوة يوميًا، بعد التأكد من التزامك.","Two-week plateau: cut calories slightly or add about 2000 steps a day, after confirming adherence."],
+rP:["تقدم جيد (0.2-0.8 كجم أسبوعيًا): استمر كما أنت.","Good progress (0.2-0.8 kg/week): keep going as you are."],
+rc2:["التغير الأسبوعي: ","Weekly change: "],sl7:["نومك أقل من 7 ساعات: حسّنه فهو يؤثر في التعافي والجوع.","Sleep is under 7 hours: improve it, it affects recovery and hunger."],
+apl:["طبّق التعديل","Apply adjustment"],dsc:["توصيات عامة تقديرية ولا تغني عن الطبيب.","General estimates, not a substitute for a doctor."],
+sgt:["اقتراح تغيير البرنامج","Program suggestion"],ya:["قبول وانتقال","Accept and switch"],na:["ليس الآن","Not now"],
+pbase:["البرنامج الأساسي","Base program"],pdeload:["أسبوع تخفيف","Deload week"],pb2:["كتلة جديدة","New block"],pfb:["جسم كامل 3 أيام","Full body 3 days"],
+dbase:["علوي/سفلي 4 أيام","Upper/lower, 4 days"],ddeload:["نفس التمارين بمجموعتين وأوزان أخف بنحو 15% لأسبوع","Same exercises, 2 sets, about 15% lighter for a week"],db2:["نفس التقسيم بتمارين مختلفة لتغيير المنبه","Same split with different exercises for a fresh stimulus"],dfb:["3 أيام: الاثنين والخميس والسبت","3 days: Monday, Thursday, Saturday"],
+w1:["مرّت 5 أسابيع أو أكثر على هذا البرنامج: وقت تخفيف الحمل للتعافي.","5+ weeks on this program: time to lighten the load and recover."],
+w2:["انتهى أسبوع التخفيف: عد إلى برنامجك.","Deload week is over: return to your program."],
+w3:["توقفت أوزانك وتكراراتك في نصف التمارين أو أكثر خلال 3 حصص.","Weights and reps stalled in half or more of the exercises over 3 sessions."],
+w4:["مرّت 8 أسابيع على البرنامج: غيّر المنبه بتمارين مختلفة.","8 weeks on this program: change the stimulus with different exercises."],
+w5:["فاتتك حصص كثيرة في آخر أسبوعين: برنامج أبسط يحافظ على الالتزام.","You missed many sessions in the last two weeks: a simpler program protects consistency."],
+pdl:["أسبوع تخفيف: أخف بنحو 15%","Deload: about 15% lighter"],need:["أدخل الوزن والخصر أولًا.","Enter weight and waist first."],saved:["تم حفظ القياس ✓","Check-in saved ✓"],hs:["القياسات المحفوظة","Saved check-ins"]});
+function wk(){return Math.floor((Date.now()-new Date(S.pstart))/6048e5)}
+function recent(){var c=0;Object.keys(S.h).forEach(function(d){if((Date.now()-new Date(d))/864e5<=14&&Object.keys(S.h[d]).some(function(i){return sets(d,i).length}))c++});return c}
+function stalled(){var n=0,t=0;D.forEach(function(x){(x.e||[]).forEach(function(p){var id=p[0],ds=dates(id).filter(function(d){return!(S.dl&&S.dl[d])}).slice(-3);t++;if(ds.length<3)return;var w=ds.map(function(d){return Math.max.apply(null,sets(d,id).map(function(z){return+z.w||0}))}),r=ds.map(function(d){return sets(d,id).reduce(function(a,z){return a+(+z.r||0)},0)});if(w[2]<=w[0]&&r[2]<=r[0])n++})});return t&&n/t>=.5}
+function pick(){if(S.sn>today)return null;var w=wk(),p=S.prog;
+if(p==="deload")return w>=1?[S.prev||"base","w2"]:null;
+if(w>=5&&p!=="fb")return["deload","w1"];
+if(p!=="fb"&&w>=2&&recent()<4)return["fb","w5"];
+if(w>=3&&stalled())return[p==="b2"?"base":"b2","w3"];
+if(p==="base"&&w>=8)return["b2","w4"];return null}
+function suggest(){var g=pick();if(!g)return;
+var c=E("div","card","<b>"+tr("sgt")+": "+tr("p"+g[0])+"</b><div class='sm'>"+tr(g[1])+"</div><div class='sm'>"+tr("d"+g[0])+"</div>");
+var y=E("button","act",tr("ya")),n=E("button","act g",tr("na"));y.style.marginTop=n.style.marginTop="8px";
+y.onclick=function(){if(S.prog!=="deload")S.prev=S.prog;S.prog=g[0];S.pstart=today;D=bd();cur=0;sv();draw()};
+n.onclick=function(){S.sn=new Date(Date.now()+6048e5).toLocaleDateString("en-CA");sv();draw()};
+c.appendChild(y);c.appendChild(n);v.appendChild(c)}
+function due(){return!S.m.length||(Date.now()-new Date(S.m[S.m.length-1].d))/864e5>=7}
+function ln(a,col){if(a.length<2)return"";var W=300,H=60,mn=Math.min.apply(null,a),mx=Math.max.apply(null,a);return'<svg viewBox="0 0 '+W+' '+H+'" width="100%"><polyline fill="none" stroke="'+col+'" stroke-width="2.5" points="'+a.map(function(x,i){return(8+i*(W-16)/(a.length-1))+","+(H-8-(x-mn)/((mx-mn)||1)*(H-16))}).join(" ")+'"/></svg>'}
+function review(){var m=S.m,n=m.length;if(n<2)return{k:"r0"};
+var a=m[n>2?n-3:n-2],b=m[n-1],dy=Math.max(1,(new Date(b.d)-new Date(a.d))/864e5),rw=(b.w-a.w)/dy*7,rc=(b.c-a.c)/dy*7,o={rw:rw,rc:rc,sl:b.sl,d:b.d};
+if(b.ad&&b.ad<70)o.k="rA";else if(rw<-.8){o.k="rF";o.adj=150}else if(rw>-.2&&rc<=-.5)o.k="rR";else if(rw>-.2){if(n<3)o.k="rW";else{o.k="rS";o.adj=-125}}else o.k="rP";return o}
+F.push(["سردين معلب",208,24.6,0,11.5],["فول مطبوخ",110,7.6,19.7,.4],["خبز قمح كامل",247,13,41,3.4],["حليب خالي الدسم",35,3.4,5,.1],["تفاح",52,.3,14,.2],["بطاطا حلوة مسلوقة",86,1.6,20,.1],["فول سوداني",567,26,16,49]);
+FE.push("Canned sardines","Fava beans, cooked","Whole wheat bread","Skimmed milk","Apple","Sweet potato, boiled","Peanuts");
+[[1,"c",.75,"صدر دجاج","Chicken breast"],[3,"c",.72,"فخذ دجاج بلا جلد","Chicken thigh, skinless"],[5,"r",.75,"كفتة لحم","Beef kefta"],[6,"c",2.8,"أرز","Rice"],[8,"c",2.4,"عدس","Lentils"],[9,"c",2.2,"حمص","Chickpeas"],[17,"c",2.2,"فول","Fava beans"]].forEach(function(z){F[z[0]][7]=z[1];F[z[0]][8]=z[2];F[z[0]][0]=z[3];FE[z[0]]=z[4]});F[2][9]=1;
+Object.assign(U,{edt:["تعديل التمارين","Edit exercises"],dn2:["تم التعديل","Done editing"],swp:["تبديل بـ...","Swap with..."],addx:["إضافة تمرين...","Add exercise..."],rst:["استرجاع تمارين اليوم الأصلية","Restore this day's original"],st2:["مجموعات","sets"],pl:["وجبات مقترحة","Suggested meals"],pa:["أضف الخطة إلى طعام اليوم","Add plan to today's food"],raw:["نيء","Raw"],ckd:["مطبوخ","Cooked"],stt:["حالة الوزن","Weight state"],pst:["أوزان الخطة","Plan weights"],grp:["اختر العضلة...","Choose muscle..."]});
+var PL=[{n:["الخطة 1: دجاج وأرز","Plan 1: chicken and rice"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[1,180],[6,200],[15,200],[14,1]]],["وجبة خفيفة","Snack",[[13,200],[20,150]]],["عشاء","Dinner",[[4,100],[8,200],[18,60],[15,150],[14,1]]]]},
+{n:["الخطة 2: بيض وبقوليات (اقتصادية)","Plan 2: eggs and legumes (budget)"],m:[["فطور","Breakfast",[[11,70],[19,250],[12,100],[0,2]]],["غداء","Lunch",[[9,250],[6,150],[15,200],[14,1],[4,100]]],["وجبة خفيفة","Snack",[[18,60],[0,2]]],["عشاء","Dinner",[[0,3],[17,250],[15,150],[18,60],[14,1]]]]},
+{n:["الخطة 3: كفتة وسردين","Plan 3: kefta and sardines"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[5,150],[10,250],[15,200]]],["وجبة خفيفة","Snack",[[13,200],[20,150],[22,20]]],["عشاء","Dinner",[[16,100],[18,80],[15,200],[8,150]]]]}];
+function pln(i){var t=PL[i],tg=calc().kc,base=0;
+t.m.forEach(function(m){m[2].forEach(function(z){var x=F[z[0]];base+=x[1]*z[1]*(x[6]||1)/100})});
+var f=Math.max(.7,Math.min(1.4,tg/base));
+return t.m.map(function(m){return[m[0],m[1],m[2].map(function(z){var x=F[z[0]],a=z[1]*f;a=x[5]?Math.max(.5,Math.round(a*2)/2):Math.max(5,Math.round(a/5)*5);if(z[0]===0)a=Math.max(1,Math.round(a));return[z[0],a]})]})}
+function eg(it){var x=F[it.i],g=it.a*(x[6]||1);if(x[8]&&it.s&&it.s!==x[7])g=x[7]==="c"?g*x[8]:g/x[8];return g}
+function cv(z,st){var x=F[z[0]],a=z[1];if(x[8]&&x[7]!==st){a=x[7]==="c"?a/x[8]:a*x[8];a=Math.max(5,Math.round(a/5)*5)}return a}
+function plan(){v.appendChild(E("h2","",tr("pl")));var c=E("div","card"),sel=E("select"),ps=E("select"),box=E("div");
+PL.forEach(function(t,i){sel.appendChild(new Option(en()?t.n[1]:t.n[0],i))});
+ps.appendChild(new Option(tr("ckd"),"c"));ps.appendChild(new Option(tr("raw"),"r"));ps.value=S.pst||"c";
+c.appendChild(sel);c.appendChild(E("div","sm",tr("pst")));c.appendChild(ps);c.appendChild(box);
+function sh(){var t={k:0,p:0},h="",st=ps.value;S.pst=st;pln(+sel.value).forEach(function(m){h+="<h2>"+(en()?m[1]:m[0])+"</h2>";m[2].forEach(function(z){var x=F[z[0]],g=z[1]*(x[6]||1);t.k+=x[1]*g/100;t.p+=x[2]*g/100;h+='<div class="it"><span>'+fn(z[0])+(x[8]?" ("+(st==="r"?tr("raw"):tr("ckd"))+")":"")+'</span><span class="sm">'+cv(z,st)+" "+(x[5]?un(x[5]):tr("gm"))+"</span></div>"})});
+box.innerHTML=h+'<div class="sm" style="margin-top:8px">'+Math.round(t.k)+" "+tr("kc")+" | "+tr("pr")+Math.round(t.p)+tr("gg")+" · "+tr("ap")+"</div>"}
+sel.onchange=sh;ps.onchange=sh;sh();
+var b=E("button","act",tr("pa"));b.style.marginTop="8px";b.onclick=function(){var st=ps.value;pln(+sel.value).forEach(function(m){m[2].forEach(function(z){var o={i:z[0],a:cv(z,st)};if(F[z[0]][8])o.s=st;S.food.items.push(o)})});sv();draw()};c.appendChild(b);v.appendChild(c)}
+var EM=0;
+function xnm(id){return en()?XE[id][0]:X[id][0]}
+function picker(ph,cb){var d=E("div",""),g=E("select"),x=E("select");d.style.display="flex";d.style.gap="6px";d.style.marginTop="8px";
+g.appendChild(new Option(ph,""));Object.keys(GN).forEach(function(k){g.appendChild(new Option(en()?GN[k][1]:GN[k][0],k))});
+x.appendChild(new Option("—",""));
+g.onchange=function(){x.innerHTML="";x.appendChild(new Option("—",""));for(var i=1;i<X.length;i++)if(MG[i]===g.value)x.appendChild(new Option(xnm(i),i))};
+x.onchange=function(){if(x.value)cb(+x.value)};d.appendChild(g);d.appendChild(x);return d}
+function editor(x){var e=x.e.map(function(z){return z.slice()});
+function save(){var o=S.ed=S.ed||{};(o[S.prog]=o[S.prog]||{})[cur]=e;sv();D=bd();draw()}
+e.forEach(function(z,n){var c=E("div","card"),r=E("div","row"),m=E("button","act g","−"),p=E("button","act g","+"),d=E("button","act g","×");
+c.appendChild(E("div","nm",xnm(z[0])+" — "+z[1]+" "+tr("st2")));
+m.onclick=function(){e[n][1]=Math.max(1,z[1]-1);save()};p.onclick=function(){e[n][1]=Math.min(6,z[1]+1);save()};d.onclick=function(){e.splice(n,1);save()};
+[m,p,d].forEach(function(b){b.style.flex="1";r.appendChild(b)});c.appendChild(r);
+c.appendChild(picker(tr("swp"),function(id){e[n][0]=id;save()}));v.appendChild(c)});
+var a=E("div","card"),pend=0,ab=E("button","act",tr("ad"));ab.style.marginTop="8px";
+a.appendChild(E("div","nm",tr("addx")));a.appendChild(picker(tr("grp"),function(id){pend=id}));
+ab.onclick=function(){if(pend){e.push([pend,3]);save()}};a.appendChild(ab);v.appendChild(a);
+var rs=E("button","act g",tr("rst"));rs.onclick=function(){if(S.ed&&S.ed[S.prog])delete S.ed[S.prog][cur];sv();D=bd();draw()};v.appendChild(rs)}
+var okm=0;function num(x){return parseFloat(String(x).replace(/[٠-٩]/g,function(d){return"٠١٢٣٤٥٦٧٨٩".indexOf(d)}).replace(/[,،٫]/g,"."))}
+function checkin(){
+v.appendChild(E("h2","",tr("ck1")));
+var c=E("div","card"),m=S.m,l=m[m.length-1]||{};
+c.innerHTML='<div class="row"><label>'+tr("wt")+'<input id="cw" type="text" inputmode="decimal"></label><label>'+tr("wa")+'<input id="cc" type="text" inputmode="decimal"></label></div><div class="row"><label>'+tr("sl")+'<input id="cs" type="text" inputmode="decimal"></label><label>'+tr("adh")+'<input id="cd" type="text" inputmode="numeric"></label></div><div class="row"><button class="act" id="cb">'+tr("sv2")+'</button></div><div id="mg" class="sm"></div>';
+var mg=c.querySelector("#mg");if(okm){mg.textContent=tr("saved");okm=0}
+c.querySelector("#cw").value=l.w||S.p.w;c.querySelector("#cc").value=l.c||"";c.querySelector("#cs").value=l.sl||"";c.querySelector("#cd").value=l.ad||"";
+c.querySelector("#cb").onclick=function(){var w=num(c.querySelector("#cw").value),k=num(c.querySelector("#cc").value);if(!w||!k){mg.textContent=tr("need");return}
+var e={d:today,w:w,c:k,sl:num(c.querySelector("#cs").value)||0,ad:num(c.querySelector("#cd").value)||0};
+if(l.d===today)m[m.length-1]=e;else m.push(e);S.p.w=w;okm=1;sv();draw()};
+if(m.length>1)c.appendChild(E("div","",'<div class="sm">'+tr("wt")+'</div>'+ln(m.map(function(x){return x.w}),"#A31C1B")+'<div class="sm">'+tr("wa")+'</div>'+ln(m.map(function(x){return x.c}),"#F2EDE6")));
+if(m.length){c.appendChild(E("h2","",tr("hs")));m.slice().reverse().forEach(function(x,i){var d=E("div","it","<span>"+x.d+" | "+x.w+" kg | "+x.c+" cm</span>"),b=E("button","","×");b.setAttribute("aria-label",tr("dl"));b.onclick=function(){m.splice(m.length-1-i,1);sv();draw()};d.appendChild(b);c.appendChild(d)})}
+var o=review(),r=E("div","",'<h2>'+tr(o.k)+'</h2>');r.innerHTML='<div style="margin-top:10px">'+tr(o.k)+'</div>';
+if(o.rw!=null){r.innerHTML+='<div class="sm">'+tr("rc2")+o.rw.toFixed(2)+" kg | "+o.rc.toFixed(1)+" cm</div>";if(o.sl&&o.sl<7)r.innerHTML+='<div class="sm">'+tr("sl7")+'</div>'}
+if(o.adj&&S.ad2!==o.d){var b=E("button","act",tr("apl")+" ("+(o.adj>0?"+":"")+o.adj+" "+tr("kc")+")");b.style.marginTop="8px";b.onclick=function(){S.adj=Math.max(-400,Math.min(300,(S.adj||0)+o.adj));S.ad2=o.d;sv();draw()};r.appendChild(b)}
+r.appendChild(E("div","sm",tr("dsc")));c.appendChild(r);v.appendChild(c)}
+Object.assign(U,{hi:["السجل","History"],pg:["مؤشر التطور","Progress"],bs:["الأفضل","Best"],lt:["آخر مرة ","Last "],
+pv:["تقدير: 75% من آخر وزن لك قبل الانقطاع","Estimate: 75% of your last weight before the break"],
+cl1:["معايرة: اختر وزنًا تنجز به ","Calibrate: pick a weight you can lift for "],cl2:[" تكرارات (أدنى مدى التمرين) وفي خزانك 2-3"," reps (bottom of the range) with 2-3 in reserve"],
+up:["ارفع الوزن: بلغت أعلى التكرارات في كل المجموعات","Increase: you hit the top reps on every set"],
+dd:["خفّف الوزن: أداء أقل من المدى في حصتين","Reduce: below the rep range in two sessions"],
+ho:["ثبّت الوزن وأضف تكرارات","Keep the weight and add reps"],sg:["المقترح: ","Suggested: "],
+kw:["كجم","kg"],rt:["راحة","Rest"],rs:["الراحة: ","Rest: "],go:["ابدأ المجموعة التالية","Start the next set"],sk:["تخطي","Skip"],
+st:["ابدأ الحصة","Start"],sp:["إنهاء","End"],sh:["خطوات الأوزان في جيمك (كجم)","Weight steps in your gym (kg)"],
+sd:["دمبل","Dumbbell"],sb:["بار (الإجمالي)","Barbell (total)"],sx:["جهاز/كابل","Machine/cable"],
+ex:["تصدير نسخة احتياطية","Export backup"],im:["استيراد نسخة احتياطية","Import backup"],n2:["لا بيانات بعد","No data yet"],du:["المدة ","Duration "],mn:[" د"," min"]});
+var TY={1:"db",3:"db",6:"db",13:"db",16:"db",19:"db",7:"bar",8:"bar",20:"bar",12:"bw",23:"bar",25:"bar",28:"bar",27:"db",26:"db"};
+var PREV={1:22.5,7:60,3:17,13:17};
+var RS={7:180,8:180,1:120,2:120,3:120,4:120,9:120,13:120,14:120,15:120,19:120,20:120,12:60,23:120,25:120,28:120,27:120};
+var MG={1:"chest",2:"back",3:"shoulders",4:"back",5:"triceps",6:"biceps",7:"quads",8:"hamstrings",9:"quads",10:"hamstrings",11:"calves",12:"core",13:"chest",14:"back",15:"back",16:"shoulders",17:"shoulders",18:"chest",19:"quads",20:"glutes",21:"quads",22:"core",23:"chest",24:"triceps",25:"back",26:"biceps",27:"quads",28:"chest",29:"chest",30:"biceps"};
+var GN={chest:["الصدر","Chest"],back:["الظهر","Back"],shoulders:["الكتف","Shoulders"],biceps:["البايسبس","Biceps"],triceps:["الترايسبس","Triceps"],quads:["الفخذ الأمامي","Quads"],hamstrings:["الفخذ الخلفي","Hamstrings"],glutes:["الأرداف","Glutes"],calves:["السمانة","Calves"],core:["البطن","Core"]};
+[["chest","ضغط صدر بجهاز","Machine chest press","8-12","mc"],["chest","ضغط صدر مائل لأسفل","Decline press","8-12","db"],["chest","فلاي دمبل","Dumbbell fly","10-15","db"],["chest","تمرين الضغط","Push-ups","8-20","bw"],["chest","كابل كروس أوفر","Cable crossover","12-15","mc"],["chest","ديبس للصدر","Chest dips","6-12","bw"],
+["back","سحب علوي بقبضة عكسية","Reverse grip pulldown","8-12","mc"],["back","رو دمبل بيد واحدة","One-arm dumbbell row","8-12","db"],["back","رو T-bar","T-bar row","8-12","bar"],["back","سحب كابل بذراعين مستقيمتين","Straight arm pulldown","12-15","mc"],["back","هايبر إكستنشن","Back extension","10-15","bw"],["back","شراغز","Shrugs","10-15","db"],["back","ديدلفت","Conventional deadlift","4-6","bar"],["back","عقلة","Pull-ups","5-10","bw"],
+["shoulders","ضغط كتف بار","Barbell overhead press","5-8","bar"],["shoulders","ضغط أرنولد","Arnold press","8-12","db"],["shoulders","رفع أمامي","Front raise","10-15","db"],["shoulders","رفع جانبي كابل","Cable lateral raise","12-15","mc"],["shoulders","ريفرس فلاي دمبل","Rear delt fly","12-15","db"],["shoulders","ضغط كتف بجهاز","Machine shoulder press","8-12","mc"],
+["biceps","بايسبس بار","Barbell curl","8-12","bar"],["biceps","كيرل دمبل مائل","Incline dumbbell curl","10-12","db"],["biceps","بريتشر كيرل","Preacher curl","8-12","mc"],["biceps","كيرل تركيز","Concentration curl","10-12","db"],["biceps","كيرل حبل","Rope cable curl","10-15","mc"],
+["triceps","ديبس للترايسبس","Triceps dips","6-12","bw"],["triceps","سكال كراشر","Skull crusher","8-12","bar"],["triceps","ترايسبس حبل","Rope pushdown","10-15","mc"],["triceps","كيك باك دمبل","Triceps kickback","10-15","db"],["triceps","ضغط ضيق","Close-grip bench press","6-10","bar"],
+["quads","هاك سكوات","Hack squat","8-12","mc"],["quads","سكوات أمامي","Front squat","5-8","bar"],["quads","جوبليت سكوات","Goblet squat","8-12","db"],["quads","ستيب أب","Step-ups","8-12","db"],["quads","سكوات سميث","Smith machine squat","6-10","bar"],
+["hamstrings","ليج كيرل جالس","Seated leg curl","10-15","mc"],["hamstrings","رومانيان دمبل","Dumbbell Romanian deadlift","8-12","db"],["hamstrings","جود مورنينج","Good morning","8-12","bar"],["hamstrings","نوردك كيرل","Nordic curl","4-8","bw"],
+["glutes","جلوت بريدج","Glute bridge","10-15","bw"],["glutes","كيك باك كابل","Cable kickback","10-15","mc"],["glutes","لانج خلفي","Reverse lunge","8-12","db"],["glutes","أبداكشن بجهاز","Hip abduction machine","12-20","mc"],
+["calves","سمانة جالس","Seated calf raise","12-20","mc"],["calves","سمانة بجهاز الليج برس","Leg press calf raise","12-20","mc"],["calves","سمانة واقف","Standing calf raise","12-20","mc"],
+["core","رفع الركبتين معلق","Hanging knee raise","8-15","bw"],["core","كرانش","Crunch","12-20","bw"],["core","رفع الساقين","Lying leg raise","10-15","bw"],["core","روسيان تويست","Russian twist","12-20","bw"],["core","بلانك جانبي","Side plank","30-45ث","bw"],["core","عجلة البطن","Ab wheel rollout","8-15","bw"]
+].forEach(function(r){var id=X.length,lo=parseInt(r[3]);X.push([r[1],r[2],GN[r[0]][0],r[3],"",""]);XE.push([r[2],GN[r[0]][1],"",""]);MG[id]=r[0];TY[id]=r[4];
+RS[id]=lo<=6?150:(r[4]!=="mc"&&["chest","back","quads","hamstrings","glutes","shoulders"].indexOf(r[0])>=0?90:60)});
+function rng(id){var m=X[id][3].match(/(\d+)(?:-(\d+))?/),hi=+(m[2]||m[1]);return[m[2]?+m[1]:hi-3,hi]}
+function stp(id){var t=TY[id]||"mc";return t==="bw"?0:S.st[t]}
+function dates(id){return Object.keys(S.h).filter(function(d){return sets(d,id).length}).sort()}
+function sets(d,id){return((S.h[d]||{})[id]||[]).filter(function(s){return s&&s.d})}
+function sug(id){var r0=sug0(id);if(S.prog==="deload"&&r0.w){var s0=stp(id);return{w:Math.max(s0,Math.round(r0.w*.85/s0)*s0),m:tr("pdl")}}return r0}
+function sug0(id){var ds=dates(id).filter(function(d){return d!==today&&!(S.dl&&S.dl[d])}),r=rng(id),s=stp(id);
+if(!ds.length){var pv=PREV[id];return pv?{w:Math.max(s,Math.round(pv*.75/s)*s),m:tr("pv")}:{w:0,m:tr("cl1")+r[0]+tr("cl2")}}
+var L=sets(ds[ds.length-1],id),w=Math.max.apply(null,L.map(function(x){return+x.w||0}));
+if(L.every(function(x){return+x.r>=r[1]}))return{w:w+s,m:tr("up")};
+function low(d){return sets(d,id).some(function(x){return+x.r<r[0]})}
+if(ds.length>1&&low(ds[ds.length-1])&&low(ds[ds.length-2]))return{w:Math.max(s,w-s),m:tr("dd")};
+return{w:w,m:tr("ho")}}
+var rest=0,fired=0,wl=null,ac=null;
+function mm(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+("0"+s%60).slice(-2)}
+function beep(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator();o.connect(ac.destination);o.frequency.value=880;o.start();setTimeout(function(){o.stop()},400);if(navigator.vibrate)navigator.vibrate([200,100,200])}catch(e){}}
+function wake(){}
+function startSess(){if(!S.t0){S.t0=Date.now();sv();wake()}}
+function startRest(s){rest=Date.now()+s*1000;fired=0;tick()}
+function initBar(){var b=document.getElementById("bar");b.innerHTML='<span id="ck"></span><b id="rb"></b><button id="sk"></button><button id="ss"></button>';
+document.getElementById("sk").onclick=function(){rest=0;tick()};
+document.getElementById("ss").onclick=function(){if(S.t0){S.dur[today]=(S.dur[today]||0)+(Date.now()-S.t0)/1000;S.t0=0;rest=0;if(wl){try{wl.release()}catch(e){}}sv()}else startSess();tick()};
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&S.t0)wake()});setInterval(tick,500);tick()}
+function tick(){var n=Date.now(),r=document.getElementById("rb"),k=document.getElementById("sk");if(!r)return;
+document.getElementById("ck").textContent="⏱ "+(S.t0?mm((n-S.t0)/1000):"0:00");
+document.getElementById("ss").textContent=S.t0?tr("sp"):tr("st");
+if(rest&&n>=rest&&!fired){fired=1;beep()}
+r.textContent=!rest?"":(n<rest?tr("rt")+" "+mm((rest-n)/1000):tr("go"));k.style.display=rest?"":"none";k.textContent=tr("sk")}
+function nav(){var n=document.getElementById("nv");n.innerHTML="";[["t","tr"],["h","hi"],["f","fo"],["i","ins"]].forEach(function(x){var b=E("button","",tr(x[1]));b.setAttribute("aria-pressed",V===x[0]);b.onclick=function(){V=x[0];draw()};n.appendChild(b)});
+var l=E("button","",en()?"عربي":"EN");l.style.flex="0 0 64px";l.setAttribute("aria-label","Language");l.onclick=function(){S.lang=en()?"ar":"en";sv();draw()};n.appendChild(l)}
+function train(){
+suggest();
+var c=E("div","chips");D.forEach(function(x,i){var b=E("button","",en()?x.dn:x.d);b.setAttribute("aria-pressed",i===cur);b.onclick=function(){cur=i;draw()};c.appendChild(b)});v.appendChild(c);
+var x=D[cur];v.appendChild(E("h2","",(en()?x.dn:x.d)+": "+(en()?x.tn:x.t)));
+if(x.c){v.appendChild(E("div","card",tr("cd")));return}
+var eb=E("button","act g",EM?tr("dn2"):tr("edt"));eb.onclick=function(){EM=!EM;draw()};v.appendChild(eb);if(EM){editor(x);return}
+v.appendChild(E("div","card sm",tr("nt")));
+x.e.forEach(function(p){
+var id=p[0],a=X[id],e=XE[id],s=sug(id),ds=dates(id).filter(function(d){return d!==today}),T=(S.h[today]||{})[id]||[];
+var el=E("div","ex"),h=E("div","exh"),pic=E("div","pic"),im=new Image();im.alt=a[0];im.src="img/ex"+id+".jpg";
+im.onload=function(){pic.innerHTML="";pic.appendChild(im)};
+pic.innerHTML=DB+(en()?e[1]:a[2])+"<br>img/ex"+id+".jpg";
+var inf=E("div","");inf.appendChild(E("div","nm",en()?e[0]:a[0]));inf.appendChild(E("div","sr",p[1]+"×"+rp(a[3])));inf.appendChild(E("div","sm",en()?e[2]:a[4]));if(en()?e[3]:a[5])inf.appendChild(E("div","sm",tr("al")+(en()?e[3]:a[5])));
+inf.appendChild(E("div","sm",tr("rs")+mm(RS[id]||75)));
+if(ds.length){var d=ds[ds.length-1];inf.appendChild(E("div","sm",tr("lt")+d+": "+sets(d,id).map(function(z){return(stp(id)?z.w+"×":"")+z.r}).join(" · ")))}
+if(stp(id))inf.appendChild(E("div","sr",(s.w?tr("sg")+s.w+" "+tr("kw")+" — ":"")+s.m));
+var l=E("a","sm",tr("pc"));l.href="https://www.google.com/search?tbm=isch&q="+encodeURIComponent(a[1]+" exercise");l.target="_blank";l.rel="noopener";inf.appendChild(l);
+h.appendChild(pic);h.appendChild(inf);el.appendChild(h);
+for(var n=0;n<p[1];n++)(function(n){var o=T[n]||{};
+var row=E("div","row sr2"+(o.d?" on":""),'<span class="sn">'+(n+1)+'</span><input type="number" step="0.5" inputmode="decimal" placeholder="'+tr("kw")+'"><input type="number" inputmode="numeric" placeholder="'+tr("rp")+'"><select><option value="">RIR</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select><button class="chk" aria-label="'+tr("dn")+'">'+(o.d?"✓":"")+'</button>');
+var i=row.querySelectorAll("input"),q=row.querySelector("select"),b=row.querySelector(".chk");
+if(!stp(id))i[0].style.display="none";
+i[0].value=o.w!=null?o.w:(s.w||"");i[1].value=o.r||"";q.value=o.q||"";
+b.onclick=function(){var H=S.h[today]=S.h[today]||{},A=H[id]=H[id]||[];
+if(A[n]&&A[n].d){A[n].d=false;b.textContent="";row.classList.remove("on")}
+else{if(!i[1].value)return;A[n]={w:i[0].value,r:i[1].value,q:q.value,d:true};b.textContent="✓";row.classList.add("on");startSess();if(S.prog==="deload"){(S.dl=S.dl||{})[today]=1}startRest(RS[id]||75)}sv()};
+el.appendChild(row)})(n);
+v.appendChild(el)})}
+function hist(){
+v.appendChild(E("h2","",tr("pg")));
+var sel=E("select");for(var i=1;i<X.length;i++)sel.appendChild(new Option(en()?XE[i][0]:X[i][0],i));
+v.appendChild(sel);var box=E("div","card");v.appendChild(box);
+function ch(){var id=+sel.value,ds=dates(id),pts=ds.map(function(d){return{d:d,v:Math.max.apply(null,sets(d,id).map(function(z){return stp(id)?+z.w||0:+z.r||0}))}});
+if(!pts.length){box.textContent=tr("n2");return}
+var mn=Math.min.apply(null,pts.map(function(z){return z.v})),mx=Math.max.apply(null,pts.map(function(z){return z.v})),W=300,H=110,u=stp(id)?" "+tr("kw"):"",pl=pts.map(function(z,i){return(pts.length>1?15+i*(W-30)/(pts.length-1):W/2)+","+(H-18-(z.v-mn)/((mx-mn)||1)*(H-40))});
+var last=pts[pts.length-1].v,pr=pts.length>1?pts[pts.length-2].v:last;
+box.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%"><polyline points="'+pl.join(" ")+'" fill="none" stroke="#A31C1B" stroke-width="2.5"/>'+pl.map(function(p){return'<circle cx="'+p.split(",")[0]+'" cy="'+p.split(",")[1]+'" r="3.5" fill="#F2EDE6"/>'}).join("")+'</svg><div class="sm">'+tr("bs")+": "+mx+u+" | "+tr("lt")+last+u+" "+(last>pr?"▲":last<pr?"▼":"■")+'</div>'}
+sel.onchange=ch;ch();
+v.appendChild(E("h2","",tr("hi")));
+Object.keys(S.h).sort().reverse().forEach(function(d){var ids=Object.keys(S.h[d]).filter(function(i){return sets(d,i).length});if(!ids.length)return;
+var c=E("div","card","<b>"+d+"</b>"+(S.dur[d]?" <span class='sm'>"+tr("du")+Math.round(S.dur[d]/60)+tr("mn")+"</span>":""));
+ids.forEach(function(i){c.appendChild(E("div","it","<span>"+(en()?XE[i][0]:X[i][0])+"</span><span class='sm'>"+sets(d,i).map(function(z){return(stp(i)?z.w+"×":"")+z.r+(z.q!==""&&z.q!=null?"·R"+z.q:"")}).join("  ")+"</span>"))});
+v.appendChild(c)})}
+function sett(){v.appendChild(E("h2","",tr("sh")));var c=E("div","card");
+c.innerHTML='<div class="row"><label>'+tr("sd")+'<input id="s1" type="number" step="0.5"></label><label>'+tr("sb")+'<input id="s2" type="number" step="0.5"></label><label>'+tr("sx")+'<input id="s3" type="number" step="0.5"></label></div>';
+[["s1","db"],["s2","bar"],["s3","mc"]].forEach(function(z){var i=c.querySelector("#"+z[0]);i.value=S.st[z[1]];i.oninput=function(){S.st[z[1]]=parseFloat(i.value)||1;sv()}});
+var e=E("button","act",tr("ex"));e.style.marginTop="10px";e.onclick=function(){var a=E("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:"application/json"}));a.download="fit-backup.json";a.click()};c.appendChild(e);
+var m=E("label","",tr("im")+'<input type="file" accept=".json,application/json">');m.style.marginTop="10px";
+m.querySelector("input").onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{Object.assign(S,JSON.parse(r.result));sv();location.reload()}catch(x){}};r.readAsText(f)};c.appendChild(m);v.appendChild(c)}
+function calc(){var p=S.p,bmr=10*p.w+6.25*p.h-5*p.a+(p.s==="m"?5:-161),tdee=bmr*p.act,kc=Math.max(Math.round(bmr),Math.round(tdee*p.g)+(S.adj||0)),pr=Math.round(1.8*p.w),fa=Math.round(.8*p.w),cb=Math.max(0,Math.round((kc-pr*4-fa*9)/4));return{bmr:Math.round(bmr),tdee:Math.round(tdee),kc:kc,pr:pr,fa:fa,cb:cb}}
+function food(){
+var p=S.p;checkin();v.appendChild(E("h2","",tr("ca")));
+var c=E("div","card");c.innerHTML='<div class="row"><label>'+tr("w")+'<input id="w" type="number" inputmode="decimal"></label><label>'+tr("h")+'<input id="h" type="number"></label><label>'+tr("a")+'<input id="a" type="number"></label></div><div class="row"><label>'+tr("s")+'<select id="s"><option value="m">'+tr("m")+'</option><option value="f">'+tr("f")+'</option></select></label><label>'+tr("ac")+'<select id="act"><option value="1.375">'+tr("a1")+'</option><option value="1.55">'+tr("a2")+'</option><option value="1.725">'+tr("a3")+'</option></select></label></div><div class="row"><label>'+tr("g")+'<select id="g"><option value="0.85">'+tr("g1")+'</option><option value="0.75">'+tr("g2")+'</option><option value="1">'+tr("g3")+'</option></select></label></div>';
+v.appendChild(c);
+[["w",p.w],["h",p.h],["a",p.a],["s",p.s],["act",p.act],["g",p.g]].forEach(function(z){var i=c.querySelector("#"+z[0]);i.value=z[1];i.onchange=i.oninput=function(){S.p[z[0]]=(z[0]==="s")?i.value:parseFloat(i.value)||0;sv();res()}});
+var rs=E("div","card");v.appendChild(rs);
+plan();v.appendChild(E("h2","",tr("td")));
+var f=E("div","card");f.innerHTML='<div class="row"><label>'+tr("fd")+'<select id="fs"></select></label><label id="fl">'+tr("am")+'<input id="fa" type="number" inputmode="decimal" value="100"></label></div><div class="row" id="stw" style="display:none"><label>'+tr("stt")+'<select id="sts"><option value="r">'+tr("raw")+'</option><option value="c">'+tr("ckd")+'</option></select></label></div><div class="row"><button class="act" id="ad">'+tr("ad")+'</button></div><div id="li"></div>';
+v.appendChild(f);
+var fs=f.querySelector("#fs");F.forEach(function(x,i){if(!x[9])fs.appendChild(new Option(fn(i),i))});
+function lab(){var x=F[fs.value];f.querySelector("#fl").firstChild.textContent=tr("am")+" ("+(x[5]?un(x[5]):tr("gm"))+")";f.querySelector("#fa").value=x[5]?1:100;f.querySelector("#stw").style.display=x[8]?"":"none";if(x[8])f.querySelector("#sts").value=x[7]}
+fs.onchange=lab;lab();
+f.querySelector("#ad").onclick=function(){var a=parseFloat(f.querySelector("#fa").value);if(!a)return;var it={i:+fs.value,a:a};if(F[it.i][8])it.s=f.querySelector("#sts").value;S.food.items.push(it);sv();res()};
+function res(){var c=calc(),t={k:0,p:0,c:0,f:0},li=f.querySelector("#li");li.innerHTML="";
+S.food.items.forEach(function(it,n){var x=F[it.i],g=eg(it),m=g/100;t.k+=x[1]*m;t.p+=x[2]*m;t.c+=x[3]*m;t.f+=x[4]*m;
+var d=E("div","it","<span>"+fn(it.i)+(it.s?" ("+(it.s==="r"?tr("raw"):tr("ckd"))+")":"")+" × "+it.a+" ("+Math.round(x[1]*m)+" "+tr("kc")+")</span>");var b=E("button","","×");b.setAttribute("aria-label",tr("dl"));b.onclick=function(){S.food.items.splice(n,1);sv();res()};d.appendChild(b);li.appendChild(d)});
+function pc(a,b){return Math.min(100,b?a/b*100:0)}
+rs.innerHTML='<div class="sm">'+tr("bm")+c.bmr+' | '+tr("tt")+c.tdee+'</div><div class="big">'+c.kc+' '+tr("kc")+'</div><div class="grid"><div>'+tr("pr")+c.pr+tr("gg")+'</div><div>'+tr("fa")+c.fa+tr("gg")+'</div><div>'+tr("cb")+c.cb+tr("gg")+'</div></div><h2>'+tr("ta")+'</h2><div>'+tr("ck")+Math.round(t.k)+' / '+c.kc+'</div><div class="bar"><i style="width:'+pc(t.k,c.kc)+'%"></i></div><div>'+tr("pk")+Math.round(t.p)+' / '+c.pr+tr("gg")+'</div><div class="bar"><i style="width:'+pc(t.p,c.pr)+'%"></i></div><div class="sm">'+tr("cb")+Math.round(t.c)+tr("gg")+' | '+tr("fa")+Math.round(t.f)+tr("gg")+'. '+tr("ap")+'</div>'}
+res();
+var b=E("button","act g",tr("nd"));b.onclick=function(){S.food.items=[];sv();res()};f.appendChild(b)}
+var dp=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;if(V==="i")draw()});
+function inst(){
+v.appendChild(E("h2","",tr("ih")));
+var c=E("div","card",tr("it"));
+if(dp){var b=E("button","act",tr("now"));b.onclick=function(){dp.prompt();dp=null;draw()};c.appendChild(b)}
+v.appendChild(c);
+v.appendChild(E("h2","",tr("ih2")));
+v.appendChild(E("div","card",tr("it2")));sett()}
+function draw(){document.documentElement.lang=en()?"en":"ar";document.documentElement.dir=en()?"ltr":"rtl";document.title=tr("ti");document.getElementById("h1").textContent=tr("ti");document.getElementById("su").textContent=tr("su");v.innerHTML="";nav();if(V!=="f"&&due()){var bn=E("div","card","<span class=sm>"+tr("rem")+"</span>"),bb=E("button","act",tr("go2"));bb.style.marginTop="8px";bb.onclick=function(){V="f";draw()};bn.appendChild(bb);v.appendChild(bn)}({t:train,h:hist,f:food,i:inst})[V]();window.scrollTo(0,0)}
+initBar();draw();
+if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0)navigator.serviceWorker.register("sw.js").catch(function(){});
+</script>
+</body>
+</html>
