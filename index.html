@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>برنامج يحيى للياقة</title>
+<title>برنامج اللياقة</title>
 <style>
 :root{--ink:#171717;--forest:#06110C;--crimson:#A31C1B;--cream:#F2EDE6;--mute:#9aa39d;--line:#1f2d26}
 *{box-sizing:border-box}
@@ -80,10 +80,10 @@ var X=[0,
 ["هيب ثراست","hip thrust","الأرجل","8-12","اعصر الأرداف في الأعلى","جلوت بريدج"],
 ["ليج إكستنشن","leg extension","الأرجل","12-15","نزول بطيء","سكوات بجهاز"],
 ["كرانش كابل","cable crunch","البطن","12-15","قوّس العمود الفقري","كرانش أرضي"]];
-var D=[{d:"الاثنين",t:"علوي A",e:[[1,3],[2,3],[3,3],[4,3],[5,2],[6,2]]},
-{d:"الثلاثاء",t:"سفلي A",e:[[7,3],[8,3],[9,3],[10,3],[11,3],[12,3]]},
-{d:"الخميس",t:"علوي B",e:[[13,3],[14,3],[15,3],[16,3],[17,2],[18,2]]},
-{d:"الجمعة",t:"سفلي B",e:[[19,3],[20,3],[21,2],[10,3],[11,3],[22,3]]},
+var D=[{d:"الاثنين",t:"دفع Push",e:[[23,4],[13,3],[3,3],[16,4],[5,3],[24,3]]},
+{d:"الثلاثاء",t:"سحب Pull",e:[[4,3],[25,3],[2,3],[17,3],[6,3],[26,2],[11,3]]},
+{d:"الخميس",t:"سفلي Lower",e:[[7,4],[8,3],[27,3],[10,3],[20,3],[11,3]]},
+{d:"الجمعة",t:"علوي Upper",e:[[28,3],[4,3],[15,3],[29,2],[16,3],[30,2],[5,2],[9,2],[10,2]]},
 {d:"السبت",t:"كارديو خفيف",c:1}];
 var F=[["بيضة (حبة)",143,12.6,.7,9.5,"حبة",50],["صدر دجاج مطبوخ",165,31,0,3.6],["صدر دجاج نيء",120,22.5,0,2.6],["فخذ دجاج مطبوخ بلا جلد",209,26,0,11],["تونة معلبة في الماء",116,26,0,1],["كفتة لحم نيئة",250,17,1,20],["أرز مطبوخ",130,2.7,28,.3],["خبز",265,9,49,3],["عدس مطبوخ",116,9,20,.4],["حمص مطبوخ",164,8.9,27,2.6],["بطاطس مسلوقة",87,1.9,20,.1],["شوفان جاف",389,17,66,7],["موز",89,1.1,23,.3],["زبادي سادة",61,3.5,4.7,3.3],["زيت زيتون (ملعقة)",884,0,0,100,"ملعقة",14],["خضار مشكلة",25,1.5,5,.2]];
 var XE=[0,
@@ -109,12 +109,22 @@ var XE=[0,
 ["Hip thrust","Legs","Squeeze glutes at the top","Glute bridge"],
 ["Leg extension","Legs","Slow lowering","Machine squat"],
 ["Cable crunch","Core","Curl the spine","Floor crunch"]];
-var DE=[["Monday","Upper A"],["Tuesday","Lower A"],["Thursday","Upper B"],["Friday","Lower B"],["Saturday","Light cardio"]];
+var DE=[["Monday","Push"],["Tuesday","Pull"],["Thursday","Lower"],["Friday","Upper"],["Saturday","Light cardio"]];
 var FE=["Egg (piece)","Chicken breast, cooked","Chicken breast, raw","Chicken thigh, cooked, skinless","Canned tuna in water","Raw beef kefta","Rice, cooked","Bread","Lentils, cooked","Chickpeas, cooked","Potato, boiled","Oats, dry","Banana","Plain yogurt","Olive oil (tbsp)","Mixed vegetables"];
 var UE={"حبة":"piece","ملعقة":"tbsp"};
+
+X[23]=["ضغط صدر بار","barbell bench press","الصدر","6-8","قدمان ثابتتان وكتفان مشدودان","ضغط صدر دمبل"];XE[23]=["Barbell bench press","Chest","Feet planted, shoulders retracted","Dumbbell bench press"];
+X[24]=["ترايسبس فوق الرأس","overhead triceps extension","الذراع","10-15","مرفقان قريبان من الرأس","ترايسبس حبل"];XE[24]=["Overhead triceps extension","Arms","Elbows close to head","Rope pushdown"];
+X[25]=["رو بار","barbell row","الظهر","6-10","ظهر ثابت واسحب نحو البطن","رو دمبل"];XE[25]=["Barbell row","Back","Stable back, pull to stomach","Dumbbell row"];
+X[26]=["هامر كيرل","hammer curl","الذراع","10-15","قبضة محايدة دون تأرجح","كيرل بحبل"];XE[26]=["Hammer curl","Arms","Neutral grip, no swing","Rope curl"];
+X[27]=["لانج بالمشي","walking lunges","الأرجل","10 لكل رجل","خطوة طويلة وجذع مستقيم","لانج ثابت"];XE[27]=["Walking lunges","Legs","Long step, upright torso","Static lunge"];
+X[28]=["ضغط صدر مائل بار","incline barbell bench press","الصدر","6-10","مقعد مائل 30°","ضغط مائل دمبل"];XE[28]=["Incline barbell bench press","Chest","Bench at 30°","Incline dumbbell press"];
+X[29]=["كابل فلاي","cable fly","الصدر","12-15","مرفقان مثنيان قليلًا","بيك ديك"];XE[29]=["Cable fly","Chest","Slightly bent elbows","Pec deck"];
+X[30]=["بايسبس كابل","cable curl","الذراع","10-15","مرفقان ثابتان","كيرل دمبل"];XE[30]=["Cable curl","Arms","Elbows fixed","Dumbbell curl"];
+[[3,"8-12"],[5,"10-15"],[4,"6-10"],[2,"8-12"],[17,"12-15"],[6,"8-12"],[11,"12-20"],[7,"5-8"],[10,"10-15"],[15,"8-12"]].forEach(function(z){X[z[0]][3]=z[1]});
 var U={tr:["التدريب","Training"],fo:["التغذية","Nutrition"],ins:["التثبيت","Install"],
 cd:["30-40 دقيقة بجهد تستطيع معه الكلام: مشي سريع أو دراجة. الأربعاء والأحد راحة مع مشي.","30-40 minutes at an effort where you can still talk: brisk walk or bike. Wednesday and Sunday are rest days with walking."],
-nt:["الأسبوعان الأولان: مجموعتان لكل تمرين بأوزان أخف. أوقف كل مجموعة وفي خزانك تكراران تقريبًا. الراحة 2-3 دقائق للتمارين الكبيرة و60-90 ثانية للعزل. ارفع الوزن عندما تبلغ أعلى التكرارات في كل المجموعات بتقنية سليمة.","First two weeks: 2 sets per exercise with lighter weights. Stop each set with about 2 reps in reserve. Rest 2-3 minutes for big lifts and 60-90 seconds for isolation. Add weight when you reach the top reps on every set with good form."],
+nt:["أحمِ قبل كل تمرين ثقيل. RIR 2 في أغلب المجموعات. الراحة: 2-3 دقائق للثقيل و90 ثانية للمتوسط و60 للعزل. أول 3 أسابيع من أي مرحلة جديدة: مجموعتان في تمارين الذراعين والكتف الجانبي. ارفع الوزن عندما تبلغ أعلى التكرارات في كل المجموعات بتقنية سليمة.","Warm up before heavy lifts. RIR 2 on most sets. Rest 2-3 minutes for heavy lifts, 90 seconds for medium and 60 for isolation. First 3 weeks of any new phase: 2 sets for arms and lateral raises. Add weight when you hit the top reps on every set with good form."],
 al:["البديل: ","Alternative: "],pc:["صور الحركة (تحتاج إنترنت)","Movement images (needs internet)"],
 kg:["الوزن (كجم)","Weight (kg)"],rp:["التكرارات","Reps"],ph:["10، 9، 8","10, 9, 8"],dn:["تم","Done"],
 nw:["حصة جديدة: إزالة العلامات","New session: clear checks"],
@@ -130,18 +140,18 @@ ih:["تثبيت التطبيق على الهاتف","Install on your phone"],
 it:["التثبيت وعمل التطبيق بدون إنترنت يحتاجان رفع الملفات مرة واحدة إلى موقع آمن (https) مثل GitHub Pages، ثم فتح الرابط في الهاتف.<ol><li>أندرويد (Chrome): القائمة ⋮ ثم «تثبيت التطبيق».</li><li>آيفون (Safari): زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».</li><li>افتحه مرة واحدة بالإنترنت، وبعدها يعمل بدونه.</li></ol>","Installing and offline use require uploading the files once to a secure (https) site such as GitHub Pages, then opening the link on your phone.<ol><li>Android (Chrome): menu ⋮ then “Install app”.</li><li>iPhone (Safari): Share button then “Add to Home Screen”.</li><li>Open it once online; afterwards it works without internet.</li></ol>"],
 now:["تثبيت الآن","Install now"],ih2:["صور التمارين","Exercise images"],
 it2:["ضع صورك داخل مجلد img بأسماء ex1.jpg إلى ex22.jpg، فتظهر تلقائيًا بجانب كل تمرين. اسم الملف المطلوب مكتوب في مكان كل صورة ناقصة.","Put your images in the img folder named ex1.jpg to ex22.jpg and they appear next to each exercise. The needed file name is shown in place of any missing image."],
-ti:["برنامج يحيى للياقة","Yahya Fitness Plan"],su:["إعادة تركيب الجسم: خسارة دهون وبناء عضل","Body recomposition: lose fat and build muscle"]};
+ti:["برنامج اللياقة","Fitness Plan"],su:["إعادة تركيب الجسم: خسارة دهون وبناء عضل","Body recomposition: lose fat and build muscle"]};
 function en(){return S.lang==="en"}
 function tr(k){return U[k][en()?1:0]}
 function rp(s){return en()?s.replace("ث","s").replace(" لكل رجل"," each leg"):s}
 function fn(i){return en()?FE[i]:F[i][0]}
 function un(u){return en()?UE[u]:u}
-var S={lang:"ar",h:{},dur:{},t0:0,st:{db:2,bar:5,mc:5},p:{w:85,h:178,a:26,s:"m",act:1.375,g:.85},food:{date:"",items:[]}};
+var S={lang:"ar",h:{},dur:{},t0:0,st:{db:2.5,bar:5,mc:5},p:{w:85,h:178,a:26,s:"m",act:1.375,g:.85},food:{date:"",items:[]}};
 try{var q=localStorage.getItem("yfit");if(q)S=Object.assign(S,JSON.parse(q))}catch(e){}
 function sv(){try{localStorage.setItem("yfit",JSON.stringify(S))}catch(e){}}
 var today=new Date().toLocaleDateString("en-CA");
 if(S.food.date!==today)S.food={date:today,items:[]};
-S.m=S.m||[];S.adj=S.adj||0;S.prog=S.prog||"base";S.prev=S.prev||"base";S.pstart=S.pstart||today;S.sn=S.sn||"";
+S.m=S.m||[];S.adj=S.adj||0;S.prog=S.prog||"base";S.prev=S.prev||"base";S.pstart=S.pstart||today;S.sn=S.sn||"";if(S.st&&S.st.db===2)S.st.db=2.5;
 var V="t",cur=({1:0,2:1,4:2,5:3,6:4})[new Date().getDay()]||0;
 var v=document.getElementById("v");
 function E(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
@@ -154,7 +164,8 @@ var PR={base:function(){return BASE},
 deload:function(){return BASE.map(function(x){return x.c?x:{d:x.d,dn:x.dn,t:x.t+" (تخفيف)",tn:x.tn+" (deload)",e:x.e.map(function(z){return[z[0],2]})}})},
 b2:function(){return mk([[0,"علوي A","Upper A",[[13,3],[14,3],[3,3],[2,3],[17,2],[5,2]]],[1,"سفلي A","Lower A",[[9,3],[8,3],[19,3],[10,3],[11,3],[22,3]]],[2,"علوي B","Upper B",[[1,3],[4,3],[15,3],[16,3],[18,2],[6,2]]],[3,"سفلي B","Lower B",[[7,3],[20,3],[21,2],[10,3],[11,3],[12,3]]],SAT])},
 fb:function(){return mk([[0,"جسم كامل A","Full body A",[[7,3],[1,3],[2,3],[5,2],[12,3]]],[2,"جسم كامل B","Full body B",[[8,3],[13,3],[4,3],[3,3],[22,3]]],[4,"جسم كامل C","Full body C",[[9,3],[14,3],[19,3],[16,3],[11,3]]]])}};
-D=PR[S.prog]();cur=Math.min(cur,D.length-1);
+function bd(){var o=(S.ed||{})[S.prog]||{};return PR[S.prog]().map(function(x){return Object.assign({},x)}).map(function(x,i){if(o[i]&&x.e)x.e=o[i];return x})}
+D=bd();cur=Math.min(cur,D.length-1);
 Object.assign(U,{ck1:["قياس الأسبوع","Weekly check-in"],wt:["الوزن (كجم)","Weight (kg)"],wa:["الخصر (سم)","Waist (cm)"],sl:["متوسط النوم (ساعات)","Avg sleep (hours)"],adh:["الالتزام بالسعرات والبروتين (%)","Calorie and protein adherence (%)"],sv2:["حفظ القياس","Save check-in"],
 rem:["حان وقت قياس الأسبوع: الأحد صباحًا قبل الأكل. افتح تبويب التغذية.","Time for your weekly check-in: Sunday morning before eating. Open the Nutrition tab."],go2:["اذهب","Go"],
 r0:["سجّل قياسين على الأقل بينهما أسبوع ليبدأ التقييم.","Log at least two check-ins a week apart to start the review."],
@@ -174,7 +185,7 @@ w2:["انتهى أسبوع التخفيف: عد إلى برنامجك.","Deload 
 w3:["توقفت أوزانك وتكراراتك في نصف التمارين أو أكثر خلال 3 حصص.","Weights and reps stalled in half or more of the exercises over 3 sessions."],
 w4:["مرّت 8 أسابيع على البرنامج: غيّر المنبه بتمارين مختلفة.","8 weeks on this program: change the stimulus with different exercises."],
 w5:["فاتتك حصص كثيرة في آخر أسبوعين: برنامج أبسط يحافظ على الالتزام.","You missed many sessions in the last two weeks: a simpler program protects consistency."],
-pdl:["أسبوع تخفيف: أخف بنحو 15%","Deload: about 15% lighter"]});
+pdl:["أسبوع تخفيف: أخف بنحو 15%","Deload: about 15% lighter"],need:["أدخل الوزن والخصر أولًا.","Enter weight and waist first."],saved:["تم حفظ القياس ✓","Check-in saved ✓"],hs:["القياسات المحفوظة","Saved check-ins"]});
 function wk(){return Math.floor((Date.now()-new Date(S.pstart))/6048e5)}
 function recent(){var c=0;Object.keys(S.h).forEach(function(d){if((Date.now()-new Date(d))/864e5<=14&&Object.keys(S.h[d]).some(function(i){return sets(d,i).length}))c++});return c}
 function stalled(){var n=0,t=0;D.forEach(function(x){(x.e||[]).forEach(function(p){var id=p[0],ds=dates(id).filter(function(d){return!(S.dl&&S.dl[d])}).slice(-3);t++;if(ds.length<3)return;var w=ds.map(function(d){return Math.max.apply(null,sets(d,id).map(function(z){return+z.w||0}))}),r=ds.map(function(d){return sets(d,id).reduce(function(a,z){return a+(+z.r||0)},0)});if(w[2]<=w[0]&&r[2]<=r[0])n++})});return t&&n/t>=.5}
@@ -187,7 +198,7 @@ if(p==="base"&&w>=8)return["b2","w4"];return null}
 function suggest(){var g=pick();if(!g)return;
 var c=E("div","card","<b>"+tr("sgt")+": "+tr("p"+g[0])+"</b><div class='sm'>"+tr(g[1])+"</div><div class='sm'>"+tr("d"+g[0])+"</div>");
 var y=E("button","act",tr("ya")),n=E("button","act g",tr("na"));y.style.marginTop=n.style.marginTop="8px";
-y.onclick=function(){if(S.prog!=="deload")S.prev=S.prog;S.prog=g[0];S.pstart=today;D=PR[S.prog]();cur=0;sv();draw()};
+y.onclick=function(){if(S.prog!=="deload")S.prev=S.prog;S.prog=g[0];S.pstart=today;D=bd();cur=0;sv();draw()};
 n.onclick=function(){S.sn=new Date(Date.now()+6048e5).toLocaleDateString("en-CA");sv();draw()};
 c.appendChild(y);c.appendChild(n);v.appendChild(c)}
 function due(){return!S.m.length||(Date.now()-new Date(S.m[S.m.length-1].d))/864e5>=7}
@@ -195,15 +206,46 @@ function ln(a,col){if(a.length<2)return"";var W=300,H=60,mn=Math.min.apply(null,
 function review(){var m=S.m,n=m.length;if(n<2)return{k:"r0"};
 var a=m[n>2?n-3:n-2],b=m[n-1],dy=Math.max(1,(new Date(b.d)-new Date(a.d))/864e5),rw=(b.w-a.w)/dy*7,rc=(b.c-a.c)/dy*7,o={rw:rw,rc:rc,sl:b.sl,d:b.d};
 if(b.ad&&b.ad<70)o.k="rA";else if(rw<-.8){o.k="rF";o.adj=150}else if(rw>-.2&&rc<=-.5)o.k="rR";else if(rw>-.2){if(n<3)o.k="rW";else{o.k="rS";o.adj=-125}}else o.k="rP";return o}
+F.push(["سردين معلب",208,24.6,0,11.5],["فول مطبوخ",110,7.6,19.7,.4],["خبز قمح كامل",247,13,41,3.4],["حليب خالي الدسم",35,3.4,5,.1],["تفاح",52,.3,14,.2],["بطاطا حلوة مسلوقة",86,1.6,20,.1],["فول سوداني",567,26,16,49]);
+FE.push("Canned sardines","Fava beans, cooked","Whole wheat bread","Skimmed milk","Apple","Sweet potato, boiled","Peanuts");
+Object.assign(U,{edt:["تعديل التمارين","Edit exercises"],dn2:["تم التعديل","Done editing"],swp:["تبديل بـ...","Swap with..."],addx:["إضافة تمرين...","Add exercise..."],rst:["استرجاع تمارين اليوم الأصلية","Restore this day's original"],st2:["مجموعات","sets"],pl:["وجبات مقترحة","Suggested meals"],pa:["أضف الخطة إلى طعام اليوم","Add plan to today's food"]});
+var PL=[{n:["الخطة 1: دجاج وأرز","Plan 1: chicken and rice"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[1,180],[6,200],[15,200],[14,1]]],["وجبة خفيفة","Snack",[[13,200],[20,150]]],["عشاء","Dinner",[[4,100],[8,200],[18,60],[15,150],[14,1]]]]},
+{n:["الخطة 2: بيض وبقوليات (اقتصادية)","Plan 2: eggs and legumes (budget)"],m:[["فطور","Breakfast",[[11,70],[19,250],[12,100],[0,2]]],["غداء","Lunch",[[9,250],[6,150],[15,200],[14,1],[4,100]]],["وجبة خفيفة","Snack",[[18,60],[0,2]]],["عشاء","Dinner",[[0,3],[17,250],[15,150],[18,60],[14,1]]]]},
+{n:["الخطة 3: كفتة وسردين","Plan 3: kefta and sardines"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[5,150],[10,250],[15,200]]],["وجبة خفيفة","Snack",[[13,200],[20,150],[22,20]]],["عشاء","Dinner",[[16,100],[18,80],[15,200],[8,150]]]]}];
+function pln(i){var t=PL[i],tg=calc().kc,base=0;
+t.m.forEach(function(m){m[2].forEach(function(z){var x=F[z[0]];base+=x[1]*z[1]*(x[6]||1)/100})});
+var f=Math.max(.7,Math.min(1.4,tg/base));
+return t.m.map(function(m){return[m[0],m[1],m[2].map(function(z){var x=F[z[0]],a=z[1]*f;a=x[5]?Math.max(.5,Math.round(a*2)/2):Math.max(5,Math.round(a/5)*5);if(z[0]===0)a=Math.max(1,Math.round(a));return[z[0],a]})]})}
+function plan(){v.appendChild(E("h2","",tr("pl")));var c=E("div","card"),sel=E("select"),box=E("div");
+PL.forEach(function(t,i){sel.appendChild(new Option(en()?t.n[1]:t.n[0],i))});c.appendChild(sel);c.appendChild(box);
+function sh(){var t={k:0,p:0},h="";pln(+sel.value).forEach(function(m){h+="<h2>"+(en()?m[1]:m[0])+"</h2>";m[2].forEach(function(z){var x=F[z[0]],g=z[1]*(x[6]||1);t.k+=x[1]*g/100;t.p+=x[2]*g/100;h+='<div class="it"><span>'+fn(z[0])+'</span><span class="sm">'+z[1]+" "+(x[5]?un(x[5]):tr("gm"))+"</span></div>"})});
+box.innerHTML=h+'<div class="sm" style="margin-top:8px">'+Math.round(t.k)+" "+tr("kc")+" | "+tr("pr")+Math.round(t.p)+tr("gg")+" · "+tr("ap")+"</div>"}
+sel.onchange=sh;sh();
+var b=E("button","act",tr("pa"));b.style.marginTop="8px";b.onclick=function(){pln(+sel.value).forEach(function(m){m[2].forEach(function(z){S.food.items.push({i:z[0],a:z[1]})})});sv();draw()};c.appendChild(b);v.appendChild(c)}
+var EM=0;
+function xnm(id){return en()?XE[id][0]:X[id][0]}
+function opts(ph){var o=E("select");o.appendChild(new Option(ph,""));for(var i=1;i<X.length;i++)o.appendChild(new Option(xnm(i),i));return o}
+function editor(x){var e=x.e.map(function(z){return z.slice()});
+function save(){var o=S.ed=S.ed||{};(o[S.prog]=o[S.prog]||{})[cur]=e;sv();D=bd();draw()}
+e.forEach(function(z,n){var c=E("div","card"),r=E("div","row"),m=E("button","act g","−"),p=E("button","act g","+"),d=E("button","act g","×"),w=opts(tr("swp"));
+c.appendChild(E("div","nm",xnm(z[0])+" — "+z[1]+" "+tr("st2")));
+m.onclick=function(){e[n][1]=Math.max(1,z[1]-1);save()};p.onclick=function(){e[n][1]=Math.min(6,z[1]+1);save()};d.onclick=function(){e.splice(n,1);save()};w.onchange=function(){if(w.value){e[n][0]=+w.value;save()}};
+[m,p,d].forEach(function(b){b.style.flex="0 0 48px";r.appendChild(b)});w.style.flex="1";r.appendChild(w);c.appendChild(r);v.appendChild(c)});
+var a=E("div","card"),as=opts(tr("addx")),ab=E("button","act",tr("ad"));ab.style.marginTop="8px";
+ab.onclick=function(){if(as.value){e.push([+as.value,3]);save()}};a.appendChild(as);a.appendChild(ab);v.appendChild(a);
+var rs=E("button","act g",tr("rst"));rs.onclick=function(){if(S.ed&&S.ed[S.prog])delete S.ed[S.prog][cur];sv();D=bd();draw()};v.appendChild(rs)}
+var okm=0;function num(x){return parseFloat(String(x).replace(/[٠-٩]/g,function(d){return"٠١٢٣٤٥٦٧٨٩".indexOf(d)}).replace(/[,،٫]/g,"."))}
 function checkin(){
 v.appendChild(E("h2","",tr("ck1")));
 var c=E("div","card"),m=S.m,l=m[m.length-1]||{};
-c.innerHTML='<div class="row"><label>'+tr("wt")+'<input id="cw" type="number" step="0.1" inputmode="decimal"></label><label>'+tr("wa")+'<input id="cc" type="number" step="0.5" inputmode="decimal"></label></div><div class="row"><label>'+tr("sl")+'<input id="cs" type="number" step="0.5" inputmode="decimal"></label><label>'+tr("adh")+'<input id="cd" type="number" inputmode="numeric"></label></div><div class="row"><button class="act" id="cb">'+tr("sv2")+'</button></div>';
+c.innerHTML='<div class="row"><label>'+tr("wt")+'<input id="cw" type="text" inputmode="decimal"></label><label>'+tr("wa")+'<input id="cc" type="text" inputmode="decimal"></label></div><div class="row"><label>'+tr("sl")+'<input id="cs" type="text" inputmode="decimal"></label><label>'+tr("adh")+'<input id="cd" type="text" inputmode="numeric"></label></div><div class="row"><button class="act" id="cb">'+tr("sv2")+'</button></div><div id="mg" class="sm"></div>';
+var mg=c.querySelector("#mg");if(okm){mg.textContent=tr("saved");okm=0}
 c.querySelector("#cw").value=l.w||S.p.w;c.querySelector("#cc").value=l.c||"";c.querySelector("#cs").value=l.sl||"";c.querySelector("#cd").value=l.ad||"";
-c.querySelector("#cb").onclick=function(){var w=parseFloat(c.querySelector("#cw").value),k=parseFloat(c.querySelector("#cc").value);if(!w||!k)return;
-var e={d:today,w:w,c:k,sl:parseFloat(c.querySelector("#cs").value)||0,ad:parseFloat(c.querySelector("#cd").value)||0};
-if(l.d===today)m[m.length-1]=e;else m.push(e);S.p.w=w;sv();draw()};
+c.querySelector("#cb").onclick=function(){var w=num(c.querySelector("#cw").value),k=num(c.querySelector("#cc").value);if(!w||!k){mg.textContent=tr("need");return}
+var e={d:today,w:w,c:k,sl:num(c.querySelector("#cs").value)||0,ad:num(c.querySelector("#cd").value)||0};
+if(l.d===today)m[m.length-1]=e;else m.push(e);S.p.w=w;okm=1;sv();draw()};
 if(m.length>1)c.appendChild(E("div","",'<div class="sm">'+tr("wt")+'</div>'+ln(m.map(function(x){return x.w}),"#A31C1B")+'<div class="sm">'+tr("wa")+'</div>'+ln(m.map(function(x){return x.c}),"#F2EDE6")));
+if(m.length){c.appendChild(E("h2","",tr("hs")));m.slice().reverse().forEach(function(x,i){var d=E("div","it","<span>"+x.d+" | "+x.w+" kg | "+x.c+" cm</span>"),b=E("button","","×");b.setAttribute("aria-label",tr("dl"));b.onclick=function(){m.splice(m.length-1-i,1);sv();draw()};d.appendChild(b);c.appendChild(d)})}
 var o=review(),r=E("div","",'<h2>'+tr(o.k)+'</h2>');r.innerHTML='<div style="margin-top:10px">'+tr(o.k)+'</div>';
 if(o.rw!=null){r.innerHTML+='<div class="sm">'+tr("rc2")+o.rw.toFixed(2)+" kg | "+o.rc.toFixed(1)+" cm</div>";if(o.sl&&o.sl<7)r.innerHTML+='<div class="sm">'+tr("sl7")+'</div>'}
 if(o.adj&&S.ad2!==o.d){var b=E("button","act",tr("apl")+" ("+(o.adj>0?"+":"")+o.adj+" "+tr("kc")+")");b.style.marginTop="8px";b.onclick=function(){S.adj=Math.max(-400,Math.min(300,(S.adj||0)+o.adj));S.ad2=o.d;sv();draw()};r.appendChild(b)}
@@ -218,9 +260,9 @@ kw:["كجم","kg"],rt:["راحة","Rest"],rs:["الراحة: ","Rest: "],go:["ا
 st:["ابدأ الحصة","Start"],sp:["إنهاء","End"],sh:["خطوات الأوزان في جيمك (كجم)","Weight steps in your gym (kg)"],
 sd:["دمبل","Dumbbell"],sb:["بار (الإجمالي)","Barbell (total)"],sx:["جهاز/كابل","Machine/cable"],
 ex:["تصدير نسخة احتياطية","Export backup"],im:["استيراد نسخة احتياطية","Import backup"],n2:["لا بيانات بعد","No data yet"],du:["المدة ","Duration "],mn:[" د"," min"]});
-var TY={1:"db",3:"db",6:"db",13:"db",16:"db",19:"db",7:"bar",8:"bar",20:"bar",12:"bw"};
+var TY={1:"db",3:"db",6:"db",13:"db",16:"db",19:"db",7:"bar",8:"bar",20:"bar",12:"bw",23:"bar",25:"bar",28:"bar",27:"db",26:"db"};
 var PREV={1:22.5,7:60,3:17,13:17};
-var RS={7:180,8:180,1:120,2:120,3:120,4:120,9:120,13:120,14:120,15:120,19:120,20:120,12:60};
+var RS={7:180,8:180,1:120,2:120,3:120,4:120,9:120,13:120,14:120,15:120,19:120,20:120,12:60,23:120,25:120,28:120,27:120};
 function rng(id){var m=X[id][3].match(/(\d+)(?:-(\d+))?/),hi=+(m[2]||m[1]);return[m[2]?+m[1]:hi-3,hi]}
 function stp(id){var t=TY[id]||"mc";return t==="bw"?0:S.st[t]}
 function dates(id){return Object.keys(S.h).filter(function(d){return sets(d,id).length}).sort()}
@@ -255,6 +297,7 @@ suggest();
 var c=E("div","chips");D.forEach(function(x,i){var b=E("button","",en()?x.dn:x.d);b.setAttribute("aria-pressed",i===cur);b.onclick=function(){cur=i;draw()};c.appendChild(b)});v.appendChild(c);
 var x=D[cur];v.appendChild(E("h2","",(en()?x.dn:x.d)+": "+(en()?x.tn:x.t)));
 if(x.c){v.appendChild(E("div","card",tr("cd")));return}
+var eb=E("button","act g",EM?tr("dn2"):tr("edt"));eb.onclick=function(){EM=!EM;draw()};v.appendChild(eb);if(EM){editor(x);return}
 v.appendChild(E("div","card sm",tr("nt")));
 x.e.forEach(function(p){
 var id=p[0],a=X[id],e=XE[id],s=sug(id),ds=dates(id).filter(function(d){return d!==today}),T=(S.h[today]||{})[id]||[];
@@ -295,7 +338,7 @@ v.appendChild(c)})}
 function sett(){v.appendChild(E("h2","",tr("sh")));var c=E("div","card");
 c.innerHTML='<div class="row"><label>'+tr("sd")+'<input id="s1" type="number" step="0.5"></label><label>'+tr("sb")+'<input id="s2" type="number" step="0.5"></label><label>'+tr("sx")+'<input id="s3" type="number" step="0.5"></label></div>';
 [["s1","db"],["s2","bar"],["s3","mc"]].forEach(function(z){var i=c.querySelector("#"+z[0]);i.value=S.st[z[1]];i.oninput=function(){S.st[z[1]]=parseFloat(i.value)||1;sv()}});
-var e=E("button","act",tr("ex"));e.style.marginTop="10px";e.onclick=function(){var a=E("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:"application/json"}));a.download="yahya-fit-backup.json";a.click()};c.appendChild(e);
+var e=E("button","act",tr("ex"));e.style.marginTop="10px";e.onclick=function(){var a=E("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:"application/json"}));a.download="fit-backup.json";a.click()};c.appendChild(e);
 var m=E("label","",tr("im")+'<input type="file" accept=".json,application/json">');m.style.marginTop="10px";
 m.querySelector("input").onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{Object.assign(S,JSON.parse(r.result));sv();location.reload()}catch(x){}};r.readAsText(f)};c.appendChild(m);v.appendChild(c)}
 function calc(){var p=S.p,bmr=10*p.w+6.25*p.h-5*p.a+(p.s==="m"?5:-161),tdee=bmr*p.act,kc=Math.max(Math.round(bmr),Math.round(tdee*p.g)+(S.adj||0)),pr=Math.round(1.8*p.w),fa=Math.round(.8*p.w),cb=Math.max(0,Math.round((kc-pr*4-fa*9)/4));return{bmr:Math.round(bmr),tdee:Math.round(tdee),kc:kc,pr:pr,fa:fa,cb:cb}}
@@ -305,7 +348,7 @@ var c=E("div","card");c.innerHTML='<div class="row"><label>'+tr("w")+'<input id=
 v.appendChild(c);
 [["w",p.w],["h",p.h],["a",p.a],["s",p.s],["act",p.act],["g",p.g]].forEach(function(z){var i=c.querySelector("#"+z[0]);i.value=z[1];i.onchange=i.oninput=function(){S.p[z[0]]=(z[0]==="s")?i.value:parseFloat(i.value)||0;sv();res()}});
 var rs=E("div","card");v.appendChild(rs);
-v.appendChild(E("h2","",tr("td")));
+plan();v.appendChild(E("h2","",tr("td")));
 var f=E("div","card");f.innerHTML='<div class="row"><label>'+tr("fd")+'<select id="fs"></select></label><label id="fl">'+tr("am")+'<input id="fa" type="number" inputmode="decimal" value="100"></label></div><div class="row"><button class="act" id="ad">'+tr("ad")+'</button></div><div id="li"></div>';
 v.appendChild(f);
 var fs=f.querySelector("#fs");F.forEach(function(x,i){fs.appendChild(new Option(fn(i),i))});
