@@ -80,9 +80,9 @@ var X=[0,
 ["هيب ثراست","hip thrust","الأرجل","8-12","اعصر الأرداف في الأعلى","جلوت بريدج"],
 ["ليج إكستنشن","leg extension","الأرجل","12-15","نزول بطيء","سكوات بجهاز"],
 ["كرانش كابل","cable crunch","البطن","12-15","قوّس العمود الفقري","كرانش أرضي"]];
-var D=[{d:"الاثنين",t:"دفع Push",e:[[23,4],[13,3],[3,3],[16,4],[5,3],[24,3]]},
-{d:"الثلاثاء",t:"سحب Pull",e:[[4,3],[25,3],[2,3],[17,3],[6,3],[26,2],[11,3]]},
-{d:"الخميس",t:"سفلي Lower",e:[[7,4],[8,3],[27,3],[10,3],[20,3],[11,3]]},
+var D=[{d:"الاثنين",t:"سفلي Lower",e:[[7,4],[8,3],[27,3],[10,3],[20,3],[11,3]]},
+{d:"الثلاثاء",t:"دفع Push",e:[[23,4],[13,3],[3,3],[16,4],[5,3],[24,3]]},
+{d:"الخميس",t:"سحب Pull",e:[[4,3],[25,3],[2,3],[17,3],[6,3],[26,2],[11,3]]},
 {d:"الجمعة",t:"علوي Upper",e:[[28,3],[4,3],[15,3],[29,2],[16,3],[30,2],[5,2],[9,2],[10,2]]},
 {d:"السبت",t:"كارديو خفيف",c:1}];
 var F=[["بيضة (حبة)",143,12.6,.7,9.5,"حبة",50],["صدر دجاج مطبوخ",165,31,0,3.6],["صدر دجاج نيء",120,22.5,0,2.6],["فخذ دجاج مطبوخ بلا جلد",209,26,0,11],["تونة معلبة في الماء",116,26,0,1],["كفتة لحم نيئة",250,17,1,20],["أرز مطبوخ",130,2.7,28,.3],["خبز",265,9,49,3],["عدس مطبوخ",116,9,20,.4],["حمص مطبوخ",164,8.9,27,2.6],["بطاطس مسلوقة",87,1.9,20,.1],["شوفان جاف",389,17,66,7],["موز",89,1.1,23,.3],["زبادي سادة",61,3.5,4.7,3.3],["زيت زيتون (ملعقة)",884,0,0,100,"ملعقة",14],["خضار مشكلة",25,1.5,5,.2]];
@@ -109,7 +109,7 @@ var XE=[0,
 ["Hip thrust","Legs","Squeeze glutes at the top","Glute bridge"],
 ["Leg extension","Legs","Slow lowering","Machine squat"],
 ["Cable crunch","Core","Curl the spine","Floor crunch"]];
-var DE=[["Monday","Push"],["Tuesday","Pull"],["Thursday","Lower"],["Friday","Upper"],["Saturday","Light cardio"]];
+var DE=[["Monday","Lower"],["Tuesday","Push"],["Thursday","Pull"],["Friday","Upper"],["Saturday","Light cardio"]];
 var FE=["Egg (piece)","Chicken breast, cooked","Chicken breast, raw","Chicken thigh, cooked, skinless","Canned tuna in water","Raw beef kefta","Rice, cooked","Bread","Lentils, cooked","Chickpeas, cooked","Potato, boiled","Oats, dry","Banana","Plain yogurt","Olive oil (tbsp)","Mixed vegetables"];
 var UE={"حبة":"piece","ملعقة":"tbsp"};
 
@@ -148,6 +148,7 @@ function fn(i){return en()?FE[i]:F[i][0]}
 function un(u){return en()?UE[u]:u}
 var S={lang:"ar",h:{},dur:{},t0:0,st:{db:2.5,bar:5,mc:5},p:{w:85,h:178,a:26,s:"m",act:1.375,g:.85},food:{date:"",items:[]}};
 try{var q=localStorage.getItem("yfit");if(q)S=Object.assign(S,JSON.parse(q))}catch(e){}
+if(!S.mig1){try{var MG={base:[2,0,1,3],deload:[2,0,1,3],b2:[1,0,3,2]};if(S.ed)for(var mk0 in MG){var mo=S.ed[mk0];if(mo){var mn={};MG[mk0].forEach(function(od,ni){if(mo[od])mn[ni]=mo[od]});S.ed[mk0]=mn}}}catch(e){}S.mig1=1}
 function sv(){try{localStorage.setItem("yfit",JSON.stringify(S))}catch(e){}}
 var today=new Date().toLocaleDateString("en-CA");
 if(S.food.date!==today)S.food={date:today,items:[]};
@@ -162,7 +163,7 @@ var BASE=D,AD=["الاثنين","الثلاثاء","الخميس","الجمعة"
 function mk(a){return a.map(function(x){return{d:AD[x[0]],dn:DE[x[0]][0],t:x[1],tn:x[2],e:x[3],c:x[4]}})}
 var PR={base:function(){return BASE},
 deload:function(){return BASE.map(function(x){return x.c?x:{d:x.d,dn:x.dn,t:x.t+" (تخفيف)",tn:x.tn+" (deload)",e:x.e.map(function(z){return[z[0],2]})}})},
-b2:function(){return mk([[0,"علوي A","Upper A",[[13,3],[14,3],[3,3],[2,3],[17,2],[5,2]]],[1,"سفلي A","Lower A",[[9,3],[8,3],[19,3],[10,3],[11,3],[22,3]]],[2,"علوي B","Upper B",[[1,3],[4,3],[15,3],[16,3],[18,2],[6,2]]],[3,"سفلي B","Lower B",[[7,3],[20,3],[21,2],[10,3],[11,3],[12,3]]],SAT])},
+b2:function(){return mk([[0,"سفلي A","Lower A",[[9,3],[8,3],[19,3],[10,3],[11,3],[22,3]]],[1,"علوي A","Upper A",[[13,3],[14,3],[3,3],[2,3],[17,2],[5,2]]],[2,"سفلي B","Lower B",[[7,3],[20,3],[21,2],[10,3],[11,3],[12,3]]],[3,"علوي B","Upper B",[[1,3],[4,3],[15,3],[16,3],[18,2],[6,2]]],SAT])},
 fb:function(){return mk([[0,"جسم كامل A","Full body A",[[7,3],[1,3],[2,3],[5,2],[12,3]]],[2,"جسم كامل B","Full body B",[[8,3],[13,3],[4,3],[3,3],[22,3]]],[4,"جسم كامل C","Full body C",[[9,3],[14,3],[19,3],[16,3],[11,3]]]])}};
 function bd(){var o=(S.ed||{})[S.prog]||{};return PR[S.prog]().map(function(x){return Object.assign({},x)}).map(function(x,i){if(o[i]&&x.e)x.e=o[i];return x})}
 D=bd();cur=Math.min(cur,D.length-1);
