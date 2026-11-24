@@ -80,9 +80,9 @@ var X=[0,
 ["هيب ثراست","hip thrust","الأرجل","8-12","اعصر الأرداف في الأعلى","جلوت بريدج"],
 ["ليج إكستنشن","leg extension","الأرجل","12-15","نزول بطيء","سكوات بجهاز"],
 ["كرانش كابل","cable crunch","البطن","12-15","قوّس العمود الفقري","كرانش أرضي"]];
-var D=[{d:"الاثنين",t:"سفلي Lower",e:[[7,4],[8,3],[27,3],[10,3],[20,3],[11,3]]},
-{d:"الثلاثاء",t:"دفع Push",e:[[23,4],[13,3],[3,3],[16,4],[5,3],[24,3]]},
-{d:"الخميس",t:"سحب Pull",e:[[4,3],[25,3],[2,3],[17,3],[6,3],[26,2],[11,3]]},
+var D=[{d:"الاثنين",t:"دفع Push",e:[[23,4],[13,3],[3,3],[16,4],[5,3],[24,3]]},
+{d:"الثلاثاء",t:"سحب Pull",e:[[4,3],[25,3],[2,3],[17,3],[6,3],[26,2],[11,3]]},
+{d:"الخميس",t:"سفلي Lower",e:[[7,4],[8,3],[27,3],[10,3],[20,3],[11,3]]},
 {d:"الجمعة",t:"علوي Upper",e:[[28,3],[4,3],[15,3],[29,2],[16,3],[30,2],[5,2],[9,2],[10,2]]},
 {d:"السبت",t:"كارديو خفيف",c:1}];
 var F=[["بيضة (حبة)",143,12.6,.7,9.5,"حبة",50],["صدر دجاج مطبوخ",165,31,0,3.6],["صدر دجاج نيء",120,22.5,0,2.6],["فخذ دجاج مطبوخ بلا جلد",209,26,0,11],["تونة معلبة في الماء",116,26,0,1],["كفتة لحم نيئة",250,17,1,20],["أرز مطبوخ",130,2.7,28,.3],["خبز",265,9,49,3],["عدس مطبوخ",116,9,20,.4],["حمص مطبوخ",164,8.9,27,2.6],["بطاطس مسلوقة",87,1.9,20,.1],["شوفان جاف",389,17,66,7],["موز",89,1.1,23,.3],["زبادي سادة",61,3.5,4.7,3.3],["زيت زيتون (ملعقة)",884,0,0,100,"ملعقة",14],["خضار مشكلة",25,1.5,5,.2]];
@@ -109,7 +109,7 @@ var XE=[0,
 ["Hip thrust","Legs","Squeeze glutes at the top","Glute bridge"],
 ["Leg extension","Legs","Slow lowering","Machine squat"],
 ["Cable crunch","Core","Curl the spine","Floor crunch"]];
-var DE=[["Monday","Lower"],["Tuesday","Push"],["Thursday","Pull"],["Friday","Upper"],["Saturday","Light cardio"]];
+var DE=[["Monday","Push"],["Tuesday","Pull"],["Thursday","Lower"],["Friday","Upper"],["Saturday","Light cardio"]];
 var FE=["Egg (piece)","Chicken breast, cooked","Chicken breast, raw","Chicken thigh, cooked, skinless","Canned tuna in water","Raw beef kefta","Rice, cooked","Bread","Lentils, cooked","Chickpeas, cooked","Potato, boiled","Oats, dry","Banana","Plain yogurt","Olive oil (tbsp)","Mixed vegetables"];
 var UE={"حبة":"piece","ملعقة":"tbsp"};
 
@@ -148,7 +148,6 @@ function fn(i){return en()?FE[i]:F[i][0]}
 function un(u){return en()?UE[u]:u}
 var S={lang:"ar",h:{},dur:{},t0:0,st:{db:2.5,bar:5,mc:5},p:{w:85,h:178,a:26,s:"m",act:1.375,g:.85},food:{date:"",items:[]}};
 try{var q=localStorage.getItem("yfit");if(q)S=Object.assign(S,JSON.parse(q))}catch(e){}
-if(!S.mig1){try{var MG={base:[2,0,1,3],deload:[2,0,1,3],b2:[1,0,3,2]};if(S.ed)for(var mk0 in MG){var mo=S.ed[mk0];if(mo){var mn={};MG[mk0].forEach(function(od,ni){if(mo[od])mn[ni]=mo[od]});S.ed[mk0]=mn}}}catch(e){}S.mig1=1}
 function sv(){try{localStorage.setItem("yfit",JSON.stringify(S))}catch(e){}}
 var today=new Date().toLocaleDateString("en-CA");
 if(S.food.date!==today)S.food={date:today,items:[]};
@@ -163,7 +162,7 @@ var BASE=D,AD=["الاثنين","الثلاثاء","الخميس","الجمعة"
 function mk(a){return a.map(function(x){return{d:AD[x[0]],dn:DE[x[0]][0],t:x[1],tn:x[2],e:x[3],c:x[4]}})}
 var PR={base:function(){return BASE},
 deload:function(){return BASE.map(function(x){return x.c?x:{d:x.d,dn:x.dn,t:x.t+" (تخفيف)",tn:x.tn+" (deload)",e:x.e.map(function(z){return[z[0],2]})}})},
-b2:function(){return mk([[0,"سفلي A","Lower A",[[9,3],[8,3],[19,3],[10,3],[11,3],[22,3]]],[1,"علوي A","Upper A",[[13,3],[14,3],[3,3],[2,3],[17,2],[5,2]]],[2,"سفلي B","Lower B",[[7,3],[20,3],[21,2],[10,3],[11,3],[12,3]]],[3,"علوي B","Upper B",[[1,3],[4,3],[15,3],[16,3],[18,2],[6,2]]],SAT])},
+b2:function(){return mk([[0,"علوي A","Upper A",[[13,3],[14,3],[3,3],[2,3],[17,2],[5,2]]],[1,"سفلي A","Lower A",[[9,3],[8,3],[19,3],[10,3],[11,3],[22,3]]],[2,"علوي B","Upper B",[[1,3],[4,3],[15,3],[16,3],[18,2],[6,2]]],[3,"سفلي B","Lower B",[[7,3],[20,3],[21,2],[10,3],[11,3],[12,3]]],SAT])},
 fb:function(){return mk([[0,"جسم كامل A","Full body A",[[7,3],[1,3],[2,3],[5,2],[12,3]]],[2,"جسم كامل B","Full body B",[[8,3],[13,3],[4,3],[3,3],[22,3]]],[4,"جسم كامل C","Full body C",[[9,3],[14,3],[19,3],[16,3],[11,3]]]])}};
 function bd(){var o=(S.ed||{})[S.prog]||{};return PR[S.prog]().map(function(x){return Object.assign({},x)}).map(function(x,i){if(o[i]&&x.e)x.e=o[i];return x})}
 D=bd();cur=Math.min(cur,D.length-1);
@@ -214,20 +213,72 @@ Object.assign(U,{edt:["تعديل التمارين","Edit exercises"],dn2:["تم
 var PL=[{n:["الخطة 1: دجاج وأرز","Plan 1: chicken and rice"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[1,180],[6,200],[15,200],[14,1]]],["وجبة خفيفة","Snack",[[13,200],[20,150]]],["عشاء","Dinner",[[4,100],[8,200],[18,60],[15,150],[14,1]]]]},
 {n:["الخطة 2: بيض وبقوليات (اقتصادية)","Plan 2: eggs and legumes (budget)"],m:[["فطور","Breakfast",[[11,70],[19,250],[12,100],[0,2]]],["غداء","Lunch",[[9,250],[6,150],[15,200],[14,1],[4,100]]],["وجبة خفيفة","Snack",[[18,60],[0,2]]],["عشاء","Dinner",[[0,3],[17,250],[15,150],[18,60],[14,1]]]]},
 {n:["الخطة 3: كفتة وسردين","Plan 3: kefta and sardines"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[5,150],[10,250],[15,200]]],["وجبة خفيفة","Snack",[[13,200],[20,150],[22,20]]],["عشاء","Dinner",[[16,100],[18,80],[15,200],[8,150]]]]}];
-function pln(i){var t=PL[i],tg=calc().kc,base=0;
+function pln(t){if(t.own)return t.m;var tg=calc().kc,base=0;
 t.m.forEach(function(m){m[2].forEach(function(z){var x=F[z[0]];base+=x[1]*z[1]*(x[6]||1)/100})});
 var f=Math.max(.7,Math.min(1.4,tg/base));
 return t.m.map(function(m){return[m[0],m[1],m[2].map(function(z){var x=F[z[0]],a=z[1]*f;a=x[5]?Math.max(.5,Math.round(a*2)/2):Math.max(5,Math.round(a/5)*5);if(z[0]===0)a=Math.max(1,Math.round(a));return[z[0],a]})]})}
 function eg(it){var x=F[it.i],g=it.a*(x[6]||1);if(x[8]&&it.s&&it.s!==x[7])g=x[7]==="c"?g*x[8]:g/x[8];return g}
 function cv(z,st){var x=F[z[0]],a=z[1];if(x[8]&&x[7]!==st){a=x[7]==="c"?a/x[8]:a*x[8];a=Math.max(5,Math.round(a/5)*5)}return a}
-function plan(){v.appendChild(E("h2","",tr("pl")));var c=E("div","card"),sel=E("select"),ps=E("select"),box=E("div");
-PL.forEach(function(t,i){sel.appendChild(new Option(en()?t.n[1]:t.n[0],i))});
+Object.assign(U,{srch:["ابحث عن طعام...","Search food..."],allc:["كل الأصناف","All categories"],newf:["أضف طعامًا غير موجود (لكل 100 غ)","Add a missing food (per 100 g)"],fnm:["الاسم","Name"],fk:["السعرات","Calories"],fpr:["البروتين (غ)","Protein (g)"],fcb:["الكربوهيدرات (غ)","Carbs (g)"],ffa:["الدهون (غ)","Fat (g)"],fsv:["حفظ الطعام","Save food"],
+pmn:["نظام جديد","New plan"],ped:["تعديل النظام","Edit plan"],pcp:["نسخ وتعديل","Copy and edit"],pdl2:["حذف النظام","Delete plan"],prs:["استرجاع الأنظمة الافتراضية","Restore default plans"],pnm:["اسم النظام","Plan name"],pnm0:["نظامي","My plan"],amn:["إضافة وجبة","Add meal"],mnm:["اسم الوجبة","Meal name"],pdn:["تم","Done"],sure:["متأكد من الحذف؟","Delete for sure?"],mdl:["حذف الوجبة","Delete meal"]});
+var CT={veg:["الخضار","Vegetables"],meat:["اللحوم","Meat"],poultry:["الدواجن","Poultry"],fish:["الأسماك والمأكولات البحرية","Fish and seafood"],dairy:["البيض والألبان","Eggs and dairy"],legumes:["البقوليات","Legumes"],grains:["الحبوب والنشويات","Grains and starches"],fruit:["الفواكه","Fruit"],fats:["المكسرات والدهون","Nuts and fats"],mine:["أطعمتي","My foods"]};
+var CAT=["dairy","poultry","poultry","poultry","fish","meat","grains","grains","legumes","legumes","veg","grains","fruit","dairy","fats","veg","fish","legumes","grains","dairy","fruit","veg","fats"];
+function add(c,rows){rows.forEach(function(r){F.push([r[0],r[2],r[3],r[4],r[5]]);FE.push(r[1]);CAT.push(c);if(r[6]){var f=F[F.length-1];f[7]=r[7]||"r";f[8]=r[6]}})}
+add("veg",[["طماطم","Tomato",18,.9,3.9,.2],["خيار","Cucumber",15,.7,3.6,.1],["جزر","Carrot",41,.9,10,.2],["بصل","Onion",40,1.1,9.3,.1],["ثوم","Garlic",149,6.4,33,.5],["خس","Lettuce",15,1.4,2.9,.2],["سبانخ","Spinach",23,2.9,3.6,.4],["ملفوف","Cabbage",25,1.3,5.8,.1],["قرنبيط","Cauliflower",25,1.9,5,.3],["بروكلي","Broccoli",34,2.8,6.6,.4],["كوسة","Zucchini",17,1.2,3.1,.3],["باذنجان","Eggplant",25,1,6,.2],["فلفل رومي","Bell pepper",31,1,6,.3],["فاصوليا خضراء","Green beans",31,1.8,7,.2],["بازلاء","Green peas",81,5.4,14,.4],["قرع","Pumpkin",26,1,6.5,.1],["لفت","Turnip",28,.9,6.4,.1],["شمندر","Beetroot",43,1.6,9.6,.2],["فطر","Mushrooms",22,3.1,3.3,.3],["بامية","Okra",33,1.9,7.5,.2],["كرفس","Celery",14,.7,3,.2],["فجل","Radish",16,.7,3.4,.1],["خرشوف","Artichoke",47,3.3,10.5,.2],["كراث","Leek",61,1.5,14,.3],["بقدونس","Parsley",36,3,6.3,.8],["كزبرة","Coriander",23,2.1,3.7,.5],["شمر","Fennel",31,1.2,7.3,.2],["سلق","Chard",19,1.8,3.7,.2],["ذرة مسلوقة","Corn, boiled",96,3.4,21,1.5],["هليون","Asparagus",20,2.2,3.9,.1],["فلفل حار","Chili pepper",40,1.9,8.8,.4]]);
+add("meat",[["لحم بقري قليل الدهن","Lean beef",150,21,0,7,.75],["لحم عجل","Veal",150,20,0,7,.75],["لحم غنم","Lamb",200,17,0,14,.75],["لحم ماعز","Goat",109,20,0,2.3,.75],["لحم جمل","Camel meat",130,21,0,4.5,.75],["كبد بقري","Beef liver",135,20,4,3.6,.75],["لحم أرنب","Rabbit",136,20,0,5.5,.75],["قلب بقري","Beef heart",112,17,.1,3.9,.75]]);
+add("poultry",[["صدر ديك رومي مطبوخ","Turkey breast, cooked",135,30,0,1],["دجاج كامل بلا جلد مطبوخ","Whole chicken, skinless, cooked",190,27,0,8],["كبد دجاج","Chicken liver",119,17,.7,4.8,.75],["أجنحة دجاج مطبوخة","Chicken wings, cooked",203,30.5,0,8.1]]);
+add("fish",[["سلمون","Salmon",208,20,0,13,.8],["ماكريل","Mackerel",205,19,0,14,.8],["دنيس","Sea bream",100,20,0,2,.8],["ميرلوزا (هيك)","Hake",90,18,0,1.3,.8],["كابيلا (قد)","Cod",82,18,0,.7,.8],["قاروص","Sea bass",97,18,0,2,.8],["جمبري","Shrimp",85,20,.2,.5,.8],["حبار","Squid",92,15.6,3,1.4,.8],["أخطبوط مطبوخ","Octopus, cooked",164,30,4.4,2.1],["سمك السلمون المرقط","Trout",119,20,0,3.5,.8],["أنشوجة طازجة","Fresh anchovy",131,20,0,4.8,.8],["سمك أبو سيف","Swordfish",144,19.7,0,6.7,.8],["بلح البحر مطبوخ","Mussels, cooked",172,24,7.4,4.5],["سلطعون مطبوخ","Crab, cooked",97,19,0,1.5],["بلطي","Tilapia",96,20,0,1.7,.8],["تونة طازجة","Fresh tuna",144,23,0,4.9,.8]]);
+add("dairy",[["بياض البيض","Egg whites",52,11,.7,.2],["جبن أبيض قليل الدسم","Low-fat white cheese",98,11,3.4,4.3],["حليب كامل","Whole milk",61,3.2,4.8,3.3],["لبن رايب","Buttermilk (leben)",40,3.3,4.8,1],["زبادي يوناني","Greek yogurt, 0%",59,10,3.6,.4],["كفير","Kefir",41,3.4,4.5,1]]);
+add("legumes",[["فاصوليا بيضاء","White beans",139,9.7,25,.5,2.3,"c"],["بازلاء جافة","Split peas",118,8.3,21,.4,2.4,"c"],["توفو","Tofu",76,8,1.9,4.8],["لوبيا","Black-eyed peas",116,7.7,21,.5,2.3,"c"],["فول الصويا","Soybeans",173,17,10,9,2.2,"c"]]);
+add("grains",[["معكرونة","Pasta",158,5.8,31,.9,2.2,"c"],["كسكس","Couscous",112,3.8,23,.2,2.5,"c"],["برغل","Bulgur",83,3,19,.2,2.8,"c"],["كينوا","Quinoa",120,4.4,21,1.9,2.8,"c"],["شعير مطبوخ","Barley, cooked",123,2.3,28,.4],["أرز بني","Brown rice",123,2.7,26,1,2.7,"c"],["تورتيلا قمح كامل","Whole wheat tortilla",218,8,40,3.5]]);
+add("fruit",[["برتقال","Orange",47,.9,12,.1],["يوسفي","Mandarin",53,.8,13,.3],["فراولة","Strawberry",32,.7,7.7,.3],["بطيخ أحمر","Watermelon",30,.6,7.6,.2],["شمام","Melon",34,.8,8,.2],["عنب","Grapes",69,.7,18,.2],["كمثرى","Pear",57,.4,15,.1],["خوخ","Peach",39,.9,10,.3],["رمان","Pomegranate",83,1.7,19,1.2],["تمر","Dates",282,2.5,75,.4],["تين طازج","Fresh figs",74,.8,19,.3],["كيوي","Kiwi",61,1.1,15,.5],["أناناس","Pineapple",50,.5,13,.1],["برقوق","Plum",46,.7,11,.3],["مشمش","Apricot",48,1.4,11,.4],["كرز","Cherries",63,1,16,.2],["مانجو","Mango",60,.8,15,.4],["ليمون","Lemon",29,1.1,9.3,.3]]);
+add("fats",[["لوز","Almonds",579,21,22,50],["جوز","Walnuts",654,15,14,65],["زبدة فول سوداني","Peanut butter",588,25,20,50],["بذور عباد الشمس","Sunflower seeds",584,21,20,51],["بذور الشيا","Chia seeds",486,17,42,31],["بذور الكتان","Flax seeds",534,18,29,42],["زيتون","Olives",115,.8,6,11],["أفوكادو","Avocado",160,2,9,15],["كاجو","Cashews",553,18,30,44],["طحينة","Tahini",595,17,21,54],["زيت أركان","Argan oil",884,0,0,100],["بذور اليقطين","Pumpkin seeds",559,30,11,49],["فستق","Pistachios",560,20,28,45]]);
+function addCF(o){F.push([o.n,o.k,o.p,o.c,o.f]);FE.push(o.n);CAT.push("mine")}
+(S.cf||[]).forEach(addCF);
+function nz(s){return String(s).toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي")}
+function fpick(cb){var d=E("div",""),q=E("input"),g=E("select"),s=E("select"),a=E("input"),st=E("select"),b=E("button","act",tr("ad"));
+q.type="text";q.placeholder=tr("srch");a.type="text";a.setAttribute("inputmode","decimal");
+g.appendChild(new Option(tr("allc"),""));Object.keys(CT).forEach(function(k){g.appendChild(new Option(en()?CT[k][1]:CT[k][0],k))});
+st.appendChild(new Option(tr("ckd"),"c"));st.appendChild(new Option(tr("raw"),"r"));
+function lab(){var x=F[s.value];if(!x){a.value="";st.style.display="none";return}a.placeholder=x[5]?un(x[5]):tr("gm");a.value=x[5]?1:100;st.style.display=x[8]?"":"none";if(x[8])st.value=x[7]}
+function fill(){var t=nz(q.value.trim()),c=g.value;s.innerHTML="";F.forEach(function(x,i){if(x[9]||(c&&CAT[i]!==c)||(t&&nz(x[0]+" "+FE[i]).indexOf(t)<0))return;s.appendChild(new Option(fn(i),i))});lab()}
+q.oninput=fill;g.onchange=fill;s.onchange=lab;fill();
+b.onclick=function(){var n=num(a.value),i=+s.value;if(!n||!s.value)return;cb(i,n,F[i][8]?st.value:"")};
+[q,g,s,a,st,b].forEach(function(e){e.style.marginTop="6px";d.appendChild(e)});return d}
+function newfood(){v.appendChild(E("h2","",tr("newf")));var c=E("div","card"),I=[];
+["fnm","fk","fpr","fcb","ffa"].forEach(function(k,j){var l=E("label","",tr(k)),e=E("input");e.type="text";if(j)e.setAttribute("inputmode","decimal");l.appendChild(e);l.style.marginTop="6px";c.appendChild(l);I.push(e)});
+var b=E("button","act",tr("fsv"));b.style.marginTop="8px";b.onclick=function(){var n=I[0].value.trim();if(!n)return;var o={n:n,k:num(I[1].value)||0,p:num(I[2].value)||0,c:num(I[3].value)||0,f:num(I[4].value)||0};(S.cf=S.cf||[]).push(o);addCF(o);sv();draw()};c.appendChild(b);v.appendChild(c)}
+function plans(){var r=[];PL.forEach(function(t,i){if((S.hp||[]).indexOf(i)<0)r.push({t:t,d:i})});(S.up||[]).forEach(function(t,i){r.push({t:t,u:i})});return r}
+function pnm(p){return p.u!=null?p.t.n:(en()?p.t.n[1]:p.t.n[0])}
+function sl(s){return s?" ("+(s==="r"?tr("raw"):tr("ckd"))+")":""}
+function pedit(c,t){var nm=E("input"),tk=0,tp=0;nm.type="text";nm.value=t.n;nm.placeholder=tr("pnm");nm.oninput=function(){t.n=nm.value;sv()};c.appendChild(nm);
+t.m.forEach(function(m,mi){c.appendChild(E("h2","",m[0]));m[2].forEach(function(z,zi){var x=F[z[0]],g=eg({i:z[0],a:z[1],s:z[2]});tk+=x[1]*g/100;tp+=x[2]*g/100;
+var d=E("div","it","<span>"+fn(z[0])+sl(z[2])+"</span><span class='sm'>"+z[1]+" "+(x[5]?un(x[5]):tr("gm"))+"</span>"),b=E("button","","×");b.onclick=function(){m[2].splice(zi,1);sv();draw()};d.appendChild(b);c.appendChild(d)});
+c.appendChild(fpick(function(i,a,s){m[2].push([i,a,s||""]);sv();draw()}));
+var dm=E("button","act g",tr("mdl"));dm.style.marginTop="6px";dm.onclick=function(){t.m.splice(mi,1);sv();draw()};c.appendChild(dm)});
+var mn=E("input");mn.type="text";mn.placeholder=tr("mnm");mn.style.marginTop="10px";c.appendChild(mn);
+var am=E("button","act g",tr("amn"));am.style.marginTop="6px";am.onclick=function(){if(!mn.value.trim())return;t.m.push([mn.value.trim(),mn.value.trim(),[]]);sv();draw()};c.appendChild(am);
+c.appendChild(E("div","sm",Math.round(tk)+" "+tr("kc")+" | "+tr("pr")+Math.round(tp)+tr("gg")));
+var dn=E("button","act",tr("pdn"));dn.style.marginTop="8px";dn.onclick=function(){EP=-1;draw()};c.appendChild(dn)}
+var EP=-1,PI=0;
+function plan(){v.appendChild(E("h2","",tr("pl")));var c=E("div","card");v.appendChild(c);
+if(EP>=0&&S.up&&S.up[EP]){pedit(c,S.up[EP]);return}
+var L=plans(),sel=E("select"),ps=E("select"),box=E("div");
+function bt(t,f,g){var b=E("button","act"+(g?" g":""),t);b.style.marginTop="6px";b.onclick=f;c.appendChild(b)}
+function cu(){return L[+sel.value]}
+L.forEach(function(p,i){sel.appendChild(new Option(pnm(p),i))});sel.value=Math.min(PI,Math.max(0,L.length-1));
 ps.appendChild(new Option(tr("ckd"),"c"));ps.appendChild(new Option(tr("raw"),"r"));ps.value=S.pst||"c";
-c.appendChild(sel);c.appendChild(E("div","sm",tr("pst")));c.appendChild(ps);c.appendChild(box);
-function sh(){var t={k:0,p:0},h="",st=ps.value;S.pst=st;pln(+sel.value).forEach(function(m){h+="<h2>"+(en()?m[1]:m[0])+"</h2>";m[2].forEach(function(z){var x=F[z[0]],g=z[1]*(x[6]||1);t.k+=x[1]*g/100;t.p+=x[2]*g/100;h+='<div class="it"><span>'+fn(z[0])+(x[8]?" ("+(st==="r"?tr("raw"):tr("ckd"))+")":"")+'</span><span class="sm">'+cv(z,st)+" "+(x[5]?un(x[5]):tr("gm"))+"</span></div>"})});
-box.innerHTML=h+'<div class="sm" style="margin-top:8px">'+Math.round(t.k)+" "+tr("kc")+" | "+tr("pr")+Math.round(t.p)+tr("gg")+" · "+tr("ap")+"</div>"}
+if(L.length){c.appendChild(sel);c.appendChild(E("div","sm",tr("pst")));c.appendChild(ps);c.appendChild(box)}else c.appendChild(E("div","sm",tr("n2")));
+function sh(){var p=cu();if(!p)return;PI=+sel.value;var st=ps.value,t={k:0,p:0},h="",o=p.t.own;S.pst=st;
+pln(p.t).forEach(function(m){h+="<h2>"+(o||!en()?m[0]:m[1])+"</h2>";m[2].forEach(function(z){var x=F[z[0]],g=eg({i:z[0],a:z[1],s:z[2]});t.k+=x[1]*g/100;t.p+=x[2]*g/100;
+h+='<div class="it"><span>'+fn(z[0])+sl(o?z[2]:(x[8]?st:""))+'</span><span class="sm">'+(o?z[1]:cv(z,st))+" "+(x[5]?un(x[5]):tr("gm"))+"</span></div>"})});
+box.innerHTML=h+'<div class="sm" style="margin-top:8px">'+Math.round(t.k)+" "+tr("kc")+" | "+tr("pr")+Math.round(t.p)+tr("gg")+(o?"":" · "+tr("ap"))+"</div>"}
 sel.onchange=sh;ps.onchange=sh;sh();
-var b=E("button","act",tr("pa"));b.style.marginTop="8px";b.onclick=function(){var st=ps.value;pln(+sel.value).forEach(function(m){m[2].forEach(function(z){var o={i:z[0],a:cv(z,st)};if(F[z[0]][8])o.s=st;S.food.items.push(o)})});sv();draw()};c.appendChild(b);v.appendChild(c)}
+if(L.length){bt(tr("pa"),function(){var p=cu(),st=ps.value,o=p.t.own;pln(p.t).forEach(function(m){m[2].forEach(function(z){var it={i:z[0],a:o?z[1]:cv(z,st)},s=o?z[2]:(F[z[0]][8]?st:"");if(s)it.s=s;S.food.items.push(it)})});sv();draw()});
+bt(function(){return cu().u!=null?tr("ped"):tr("pcp")}(),function(){var p=cu();if(p.u!=null)EP=p.u;else{var q=pln(p.t).map(function(m){var n=en()?m[1]:m[0];return[n,n,m[2].map(function(z){var x=F[z[0]];return[z[0],z[1],x[8]?x[7]:""]})]});(S.up=S.up||[]).push({n:pnm(p)+" *",own:1,m:q});EP=S.up.length-1}sv();draw()},1);
+bt(tr("pdl2"),function(){var p=cu();if(!confirm(tr("sure")))return;if(p.u!=null)S.up.splice(p.u,1);else(S.hp=S.hp||[]).push(p.d);PI=0;sv();draw()},1)}
+bt(tr("pmn"),function(){(S.up=S.up||[]).push({n:tr("pnm0"),own:1,m:[]});EP=S.up.length-1;sv();draw()},1);
+if((S.hp||[]).length)bt(tr("prs"),function(){S.hp=[];sv();draw()},1)}
 var EM=0;
 function xnm(id){return en()?XE[id][0]:X[id][0]}
 function picker(ph,cb){var d=E("div",""),g=E("select"),x=E("select");d.style.display="flex";d.style.gap="6px";d.style.marginTop="8px";
@@ -375,19 +426,15 @@ v.appendChild(c);
 [["w",p.w],["h",p.h],["a",p.a],["s",p.s],["act",p.act],["g",p.g]].forEach(function(z){var i=c.querySelector("#"+z[0]);i.value=z[1];i.onchange=i.oninput=function(){S.p[z[0]]=(z[0]==="s")?i.value:parseFloat(i.value)||0;sv();res()}});
 var rs=E("div","card");v.appendChild(rs);
 plan();v.appendChild(E("h2","",tr("td")));
-var f=E("div","card");f.innerHTML='<div class="row"><label>'+tr("fd")+'<select id="fs"></select></label><label id="fl">'+tr("am")+'<input id="fa" type="number" inputmode="decimal" value="100"></label></div><div class="row" id="stw" style="display:none"><label>'+tr("stt")+'<select id="sts"><option value="r">'+tr("raw")+'</option><option value="c">'+tr("ckd")+'</option></select></label></div><div class="row"><button class="act" id="ad">'+tr("ad")+'</button></div><div id="li"></div>';
-v.appendChild(f);
-var fs=f.querySelector("#fs");F.forEach(function(x,i){if(!x[9])fs.appendChild(new Option(fn(i),i))});
-function lab(){var x=F[fs.value];f.querySelector("#fl").firstChild.textContent=tr("am")+" ("+(x[5]?un(x[5]):tr("gm"))+")";f.querySelector("#fa").value=x[5]?1:100;f.querySelector("#stw").style.display=x[8]?"":"none";if(x[8])f.querySelector("#sts").value=x[7]}
-fs.onchange=lab;lab();
-f.querySelector("#ad").onclick=function(){var a=parseFloat(f.querySelector("#fa").value);if(!a)return;var it={i:+fs.value,a:a};if(F[it.i][8])it.s=f.querySelector("#sts").value;S.food.items.push(it);sv();res()};
+var f=E("div","card");v.appendChild(f);
+var fp=fpick(function(i,a,s){var it={i:i,a:a};if(s)it.s=s;S.food.items.push(it);sv();res()});f.appendChild(fp);f.appendChild(E("div","",'<div id="li"></div>'));
 function res(){var c=calc(),t={k:0,p:0,c:0,f:0},li=f.querySelector("#li");li.innerHTML="";
 S.food.items.forEach(function(it,n){var x=F[it.i],g=eg(it),m=g/100;t.k+=x[1]*m;t.p+=x[2]*m;t.c+=x[3]*m;t.f+=x[4]*m;
 var d=E("div","it","<span>"+fn(it.i)+(it.s?" ("+(it.s==="r"?tr("raw"):tr("ckd"))+")":"")+" × "+it.a+" ("+Math.round(x[1]*m)+" "+tr("kc")+")</span>");var b=E("button","","×");b.setAttribute("aria-label",tr("dl"));b.onclick=function(){S.food.items.splice(n,1);sv();res()};d.appendChild(b);li.appendChild(d)});
 function pc(a,b){return Math.min(100,b?a/b*100:0)}
 rs.innerHTML='<div class="sm">'+tr("bm")+c.bmr+' | '+tr("tt")+c.tdee+'</div><div class="big">'+c.kc+' '+tr("kc")+'</div><div class="grid"><div>'+tr("pr")+c.pr+tr("gg")+'</div><div>'+tr("fa")+c.fa+tr("gg")+'</div><div>'+tr("cb")+c.cb+tr("gg")+'</div></div><h2>'+tr("ta")+'</h2><div>'+tr("ck")+Math.round(t.k)+' / '+c.kc+'</div><div class="bar"><i style="width:'+pc(t.k,c.kc)+'%"></i></div><div>'+tr("pk")+Math.round(t.p)+' / '+c.pr+tr("gg")+'</div><div class="bar"><i style="width:'+pc(t.p,c.pr)+'%"></i></div><div class="sm">'+tr("cb")+Math.round(t.c)+tr("gg")+' | '+tr("fa")+Math.round(t.f)+tr("gg")+'. '+tr("ap")+'</div>'}
 res();
-var b=E("button","act g",tr("nd"));b.onclick=function(){S.food.items=[];sv();res()};f.appendChild(b)}
+var b=E("button","act g",tr("nd"));b.onclick=function(){S.food.items=[];sv();res()};f.appendChild(b);newfood()}
 var dp=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;if(V==="i")draw()});
 function inst(){
 v.appendChild(E("h2","",tr("ih")));
