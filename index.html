@@ -210,17 +210,15 @@ F.push(["سردين معلب",208,24.6,0,11.5],["فول مطبوخ",110,7.6,19.7
 FE.push("Canned sardines","Fava beans, cooked","Whole wheat bread","Skimmed milk","Apple","Sweet potato, boiled","Peanuts");
 [[1,"c",.75,"صدر دجاج","Chicken breast"],[3,"c",.72,"فخذ دجاج بلا جلد","Chicken thigh, skinless"],[5,"r",.75,"كفتة لحم","Beef kefta"],[6,"c",2.8,"أرز","Rice"],[8,"c",2.4,"عدس","Lentils"],[9,"c",2.2,"حمص","Chickpeas"],[17,"c",2.2,"فول","Fava beans"]].forEach(function(z){F[z[0]][7]=z[1];F[z[0]][8]=z[2];F[z[0]][0]=z[3];FE[z[0]]=z[4]});F[2][9]=1;
 Object.assign(U,{edt:["تعديل التمارين","Edit exercises"],dn2:["تم التعديل","Done editing"],swp:["تبديل بـ...","Swap with..."],addx:["إضافة تمرين...","Add exercise..."],rst:["استرجاع تمارين اليوم الأصلية","Restore this day's original"],st2:["مجموعات","sets"],pl:["وجبات مقترحة","Suggested meals"],pa:["أضف الخطة إلى طعام اليوم","Add plan to today's food"],raw:["نيء","Raw"],ckd:["مطبوخ","Cooked"],stt:["حالة الوزن","Weight state"],pst:["أوزان الخطة","Plan weights"],grp:["اختر العضلة...","Choose muscle..."]});
-var PL=[{n:["الخطة 1: دجاج وأرز","Plan 1: chicken and rice"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[1,180],[6,200],[15,200],[14,1]]],["وجبة خفيفة","Snack",[[13,200],[20,150]]],["عشاء","Dinner",[[4,100],[8,200],[18,60],[15,150],[14,1]]]]},
-{n:["الخطة 2: بيض وبقوليات (اقتصادية)","Plan 2: eggs and legumes (budget)"],m:[["فطور","Breakfast",[[11,70],[19,250],[12,100],[0,2]]],["غداء","Lunch",[[9,250],[6,150],[15,200],[14,1],[4,100]]],["وجبة خفيفة","Snack",[[18,60],[0,2]]],["عشاء","Dinner",[[0,3],[17,250],[15,150],[18,60],[14,1]]]]},
-{n:["الخطة 3: كفتة وسردين","Plan 3: kefta and sardines"],m:[["فطور","Breakfast",[[0,3],[18,80],[15,100]]],["غداء","Lunch",[[5,150],[10,250],[15,200]]],["وجبة خفيفة","Snack",[[13,200],[20,150],[22,20]]],["عشاء","Dinner",[[16,100],[18,80],[15,200],[8,150]]]]}];
+var PL=[];
 function pln(t){if(t.own)return t.m;var tg=calc().kc,base=0;
 t.m.forEach(function(m){m[2].forEach(function(z){var x=F[z[0]];base+=x[1]*eg({i:z[0],a:z[1]})/100})});
 var f=Math.max(.7,Math.min(1.4,tg/base));
 return t.m.map(function(m){return[m[0],m[1],m[2].map(function(z){var x=F[z[0]],a=z[1]*f;a=leg(z[0])?Math.max(.5,Math.round(a*2)/2):Math.max(5,Math.round(a/5)*5);if(z[0]===0)a=Math.max(1,Math.round(a));return[z[0],a]})]})}
-function eg(it){var x=F[it.i],g=it.u==="g"?it.a:it.u==="p"?it.a*(it.w||x[6]||100):(leg(it.i)?it.a*x[6]:it.a);if(x[8]&&it.s&&it.s!==x[7])g=x[7]==="c"?g*x[8]:g/x[8];return g}
+function eg(it){var x=F[it.i],g=it.u==="g"?it.a:it.u==="m"?it.a*(x[10]||1):it.u==="p"?it.a*(it.w||x[6]||100):(leg(it.i)?it.a*x[6]:it.a);if(x[8]&&it.s&&it.s!==x[7])g=x[7]==="c"?g*x[8]:g/x[8];return g}
 function cv(z,st){var x=F[z[0]],a=z[1];if(x[8]&&x[7]!==st){a=x[7]==="c"?a/x[8]:a*x[8];a=Math.max(5,Math.round(a/5)*5)}return a}
 Object.assign(U,{srch:["ابحث عن طعام...","Search food..."],allc:["كل الأصناف","All categories"],newf:["أضف طعامًا غير موجود (لكل 100 غ)","Add a missing food (per 100 g)"],fnm:["الاسم","Name"],fk:["السعرات","Calories"],fpr:["البروتين (غ)","Protein (g)"],fcb:["الكربوهيدرات (غ)","Carbs (g)"],ffa:["الدهون (غ)","Fat (g)"],fsv:["حفظ الطعام","Save food"],
-pmn:["نظام جديد","New plan"],ped:["تعديل النظام","Edit plan"],pcp:["نسخ وتعديل","Copy and edit"],pdl2:["حذف النظام","Delete plan"],prs:["استرجاع الأنظمة الافتراضية","Restore default plans"],pnm:["اسم النظام","Plan name"],pnm0:["نظامي","My plan"],amn:["إضافة وجبة","Add meal"],mnm:["اسم الوجبة","Meal name"],pdn:["تم","Done"],sure:["متأكد من الحذف؟","Delete for sure?"],mdl:["حذف الوجبة","Delete meal"],pc2:["حبة","piece"],pwt:["وزن الحبة الواحدة بالغرام","Grams per piece"],pcw:["الحبة الواحدة ≈ ","One piece ≈ "]});
+pmn:["نظام جديد","New plan"],ped:["تعديل النظام","Edit plan"],pcp:["نسخ وتعديل","Copy and edit"],pdl2:["حذف النظام","Delete plan"],prs:["استرجاع الأنظمة الافتراضية","Restore default plans"],pnm:["اسم النظام","Plan name"],pnm0:["نظامي","My plan"],amn:["إضافة وجبة","Add meal"],mnm:["اسم الوجبة","Meal name"],pdn:["تم","Done"],sure:["سيُحذف النظام نهائيًا ولا يمكن استرجاعه. متأكد؟","This plan will be deleted permanently and can't be recovered. Sure?"],ml:["مل","ml"],nop:["لا توجد أنظمة. أنشئ نظامك الأول.","No plans yet. Create your first plan."],mdl:["حذف الوجبة","Delete meal"],pc2:["حبة","piece"],pwt:["وزن الحبة الواحدة بالغرام","Grams per piece"],pcw:["الحبة الواحدة ≈ ","One piece ≈ "]});
 var CT={veg:["الخضار","Vegetables"],meat:["اللحوم","Meat"],poultry:["الدواجن","Poultry"],fish:["الأسماك والمأكولات البحرية","Fish and seafood"],dairy:["البيض والألبان","Eggs and dairy"],legumes:["البقوليات","Legumes"],grains:["الحبوب والنشويات","Grains and starches"],fruit:["الفواكه","Fruit"],fats:["المكسرات والدهون","Nuts and fats"],mine:["أطعمتي","My foods"]};
 var CAT=["dairy","poultry","poultry","poultry","fish","meat","grains","grains","legumes","legumes","veg","grains","fruit","dairy","fats","veg","fish","legumes","grains","dairy","fruit","veg","fats"];
 function add(c,rows){rows.forEach(function(r){F.push([r[0],r[2],r[3],r[4],r[5]]);FE.push(r[1]);CAT.push(c);if(r[6]){var f=F[F.length-1];f[7]=r[7]||"r";f[8]=r[6]}})}
@@ -233,19 +231,22 @@ add("legumes",[["فاصوليا بيضاء","White beans",139,9.7,25,.5,2.3,"c"]
 add("grains",[["معكرونة","Pasta",158,5.8,31,.9,2.2,"c"],["كسكس","Couscous",112,3.8,23,.2,2.5,"c"],["برغل","Bulgur",83,3,19,.2,2.8,"c"],["كينوا","Quinoa",120,4.4,21,1.9,2.8,"c"],["شعير مطبوخ","Barley, cooked",123,2.3,28,.4],["أرز بني","Brown rice",123,2.7,26,1,2.7,"c"],["تورتيلا قمح كامل","Whole wheat tortilla",218,8,40,3.5]]);
 add("fruit",[["برتقال","Orange",47,.9,12,.1],["يوسفي","Mandarin",53,.8,13,.3],["فراولة","Strawberry",32,.7,7.7,.3],["بطيخ أحمر","Watermelon",30,.6,7.6,.2],["شمام","Melon",34,.8,8,.2],["عنب","Grapes",69,.7,18,.2],["كمثرى","Pear",57,.4,15,.1],["خوخ","Peach",39,.9,10,.3],["رمان","Pomegranate",83,1.7,19,1.2],["تمر","Dates",282,2.5,75,.4],["تين طازج","Fresh figs",74,.8,19,.3],["كيوي","Kiwi",61,1.1,15,.5],["أناناس","Pineapple",50,.5,13,.1],["برقوق","Plum",46,.7,11,.3],["مشمش","Apricot",48,1.4,11,.4],["كرز","Cherries",63,1,16,.2],["مانجو","Mango",60,.8,15,.4],["ليمون","Lemon",29,1.1,9.3,.3]]);
 add("fats",[["لوز","Almonds",579,21,22,50],["جوز","Walnuts",654,15,14,65],["زبدة فول سوداني","Peanut butter",588,25,20,50],["بذور عباد الشمس","Sunflower seeds",584,21,20,51],["بذور الشيا","Chia seeds",486,17,42,31],["بذور الكتان","Flax seeds",534,18,29,42],["زيتون","Olives",115,.8,6,11],["أفوكادو","Avocado",160,2,9,15],["كاجو","Cashews",553,18,30,44],["طحينة","Tahini",595,17,21,54],["زيت أركان","Argan oil",884,0,0,100],["بذور اليقطين","Pumpkin seeds",559,30,11,49],["فستق","Pistachios",560,20,28,45]]);
+add("dairy",[["حليب الصويا","Soy milk",33,2.8,1.7,1.6],["حليب اللوز","Almond milk",15,.6,.3,1.2]]);add("fruit",[["عصير برتقال","Orange juice",45,.7,10.4,.2]]);
+[["حليب كامل",1.03],["حليب خالي الدسم",1.03],["لبن رايب",1.03],["كفير",1.03],["زيت زيتون (ملعقة)",.91],["زيت أركان",.92],["حليب الصويا",1.03],["حليب اللوز",1],["عصير برتقال",1.04]].forEach(function(z){F.forEach(function(x){if(x[0]===z[0])x[10]=z[1]})});
 [["موز","حبة",120],["تفاح","حبة",180],["برتقال","حبة",130],["يوسفي","حبة",90],["كمثرى","حبة",180],["خوخ","حبة",150],["برقوق","حبة",60],["مشمش","حبة",35],["تين طازج","حبة",50],["كيوي","حبة",75],["تمر","حبة",8],["طماطم","حبة",120],["خيار","حبة",120],["جزر","حبة",70],["بصل","حبة",110],["بطاطس مسلوقة","حبة",170],["بطاطا حلوة مسلوقة","حبة",150],["كوسة","حبة",200],["باذنجان","حبة",250],["فلفل رومي","حبة",150],["ليمون","حبة",60],["بياض البيض","حبة",33],["زيتون","حبة",4],["خبز","شريحة",30],["خبز قمح كامل","شريحة",30],["زبدة فول سوداني","ملعقة",16],["طحينة","ملعقة",15],["زيت أركان","ملعقة",14]].forEach(function(z){F.forEach(function(x){if(x[0]===z[0]&&!x[5]){x[5]=z[1];x[6]=z[2]}})});
 function addCF(o){F.push([o.n,o.k,o.p,o.c,o.f]);FE.push(o.n);CAT.push("mine")}
 (S.cf||[]).forEach(addCF);
+if(!S.fv){S.fv=1;var sh0=function(i){return i>=131?i+3:i};S.food.items.forEach(function(x){x.i=sh0(x.i)});(S.up||[]).forEach(function(p){p.m.forEach(function(m){m[2].forEach(function(z){z[0]=sh0(z[0])})})});sv()}
 function nz(s){return String(s).toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي")}
 function leg(i){return i===0||i===14}
-function ul(it){var x=F[it.i];if(it.u==="g")return tr("gm");if(it.u==="p")return x[5]?un(x[5]):tr("pc2");return leg(it.i)?un(x[5]):tr("gm")}
+function ul(it){var x=F[it.i];if(it.u==="g")return tr("gm");if(it.u==="m")return tr("ml");if(it.u==="p")return x[5]?un(x[5]):tr("pc2");return leg(it.i)?un(x[5]):tr("gm")}
 function fpick(cb){var d=E("div",""),q=E("input"),g=E("select"),s=E("select"),a=E("input"),us=E("select"),pw=E("input"),st=E("select"),h=E("div","sm"),b=E("button","act",tr("ad"));
 q.type="text";q.placeholder=tr("srch");a.type="text";a.setAttribute("inputmode","decimal");pw.type="text";pw.setAttribute("inputmode","decimal");pw.placeholder=tr("pwt");
 g.appendChild(new Option(tr("allc"),""));Object.keys(CT).forEach(function(k){g.appendChild(new Option(en()?CT[k][1]:CT[k][0],k))});
 st.appendChild(new Option(tr("ckd"),"c"));st.appendChild(new Option(tr("raw"),"r"));
-function uc(){var x=F[s.value];if(!x)return;var p=us.value==="p";pw.style.display=p&&!x[6]?"":"none";h.textContent=p&&x[6]?tr("pcw")+x[6]+" "+tr("gm"):"";a.value=p?1:100;a.placeholder=p?(x[5]?un(x[5]):tr("pc2")):tr("gm");pw.value="";st.style.display=x[8]?"":"none";if(x[8])st.value=x[7]}
+function uc(){var x=F[s.value];if(!x)return;var p=us.value==="p";pw.style.display=p&&!x[6]?"":"none";h.textContent=p&&x[6]?tr("pcw")+x[6]+" "+tr("gm"):"";a.value=p?1:100;a.placeholder=p?(x[5]?un(x[5]):tr("pc2")):(us.value==="m"?tr("ml"):tr("gm"));pw.value="";st.style.display=x[8]?"":"none";if(x[8])st.value=x[7]}
 function lab(){var x=F[s.value];us.innerHTML="";if(!x){a.value="";h.textContent="";pw.style.display="none";st.style.display="none";return}
-us.appendChild(new Option(tr("gm"),"g"));us.appendChild(new Option(x[5]?un(x[5]):tr("pc2"),"p"));us.value=leg(+s.value)?"p":"g";uc()}
+us.appendChild(new Option(tr("gm"),"g"));us.appendChild(new Option(x[5]?un(x[5]):tr("pc2"),"p"));if(x[10])us.appendChild(new Option(tr("ml"),"m"));us.value=leg(+s.value)?"p":"g";uc()}
 function fill(){var t=nz(q.value.trim()),c=g.value;s.innerHTML="";F.forEach(function(x,i){if(x[9]||(c&&CAT[i]!==c)||(t&&nz(x[0]+" "+FE[i]).indexOf(t)<0))return;s.appendChild(new Option(fn(i),i))});lab()}
 q.oninput=fill;g.onchange=fill;s.onchange=lab;us.onchange=uc;fill();
 b.onclick=function(){var n=num(a.value),i=+s.value,u=us.value,w=u==="p"?(F[i][6]||num(pw.value)):0;if(!n||!s.value||(u==="p"&&!w))return;cb(i,n,F[i][8]?st.value:"",u,w)};
@@ -263,7 +264,7 @@ c.appendChild(fpick(function(i,a,s,u,w){m[2].push([i,a,s||"",u,w]);sv();draw()})
 var dm=E("button","act g",tr("mdl"));dm.style.marginTop="6px";dm.onclick=function(){t.m.splice(mi,1);sv();draw()};c.appendChild(dm)});
 var mn=E("input");mn.type="text";mn.placeholder=tr("mnm");mn.style.marginTop="10px";c.appendChild(mn);
 var am=E("button","act g",tr("amn"));am.style.marginTop="6px";am.onclick=function(){if(!mn.value.trim())return;t.m.push([mn.value.trim(),mn.value.trim(),[]]);sv();draw()};c.appendChild(am);
-c.appendChild(E("div","sm",Math.round(tk)+" "+tr("kc")+" | "+tr("pr")+Math.round(tp)+tr("gg")));
+var cc=calc();c.appendChild(E("div","",'<div>'+tr("ck")+Math.round(tk)+' / '+cc.kc+'</div><div class="bar"><i style="width:'+Math.min(100,tk/cc.kc*100)+'%"></i></div><div>'+tr("pk")+Math.round(tp)+' / '+cc.pr+tr("gg")+'</div><div class="bar"><i style="width:'+Math.min(100,tp/cc.pr*100)+'%"></i></div>'));
 var dn=E("button","act",tr("pdn"));dn.style.marginTop="8px";dn.onclick=function(){EP=-1;draw()};c.appendChild(dn)}
 var EP=-1,PI=0;
 function plan(){v.appendChild(E("h2","",tr("pl")));var c=E("div","card");v.appendChild(c);
@@ -273,17 +274,17 @@ function bt(t,f,g){var b=E("button","act"+(g?" g":""),t);b.style.marginTop="6px"
 function cu(){return L[+sel.value]}
 L.forEach(function(p,i){sel.appendChild(new Option(pnm(p),i))});sel.value=Math.min(PI,Math.max(0,L.length-1));
 ps.appendChild(new Option(tr("ckd"),"c"));ps.appendChild(new Option(tr("raw"),"r"));ps.value=S.pst||"c";
-if(L.length){c.appendChild(sel);c.appendChild(E("div","sm",tr("pst")));c.appendChild(ps);c.appendChild(box)}else c.appendChild(E("div","sm",tr("n2")));
+if(L.length){c.appendChild(sel);c.appendChild(box)}else c.appendChild(E("div","sm",tr("nop")));
 function sh(){var p=cu();if(!p)return;PI=+sel.value;var st=ps.value,t={k:0,p:0},h="",o=p.t.own;S.pst=st;
 pln(p.t).forEach(function(m){h+="<h2>"+(o||!en()?m[0]:m[1])+"</h2>";m[2].forEach(function(z){var x=F[z[0]],g=eg({i:z[0],a:z[1],s:z[2],u:z[3],w:z[4]});t.k+=x[1]*g/100;t.p+=x[2]*g/100;
 h+='<div class="it"><span>'+fn(z[0])+sl(o?z[2]:(x[8]?st:""))+'</span><span class="sm">'+(o?z[1]:cv(z,st))+" "+ul({i:z[0],u:o?z[3]:0})+"</span></div>"})});
 box.innerHTML=h+'<div class="sm" style="margin-top:8px">'+Math.round(t.k)+" "+tr("kc")+" | "+tr("pr")+Math.round(t.p)+tr("gg")+(o?"":" · "+tr("ap"))+"</div>"}
 sel.onchange=sh;ps.onchange=sh;sh();
 if(L.length){bt(tr("pa"),function(){var p=cu(),st=ps.value,o=p.t.own;pln(p.t).forEach(function(m){m[2].forEach(function(z){var it={i:z[0],a:o?z[1]:cv(z,st)},s=o?z[2]:(F[z[0]][8]?st:"");if(s)it.s=s;if(o&&z[3]){it.u=z[3];if(z[4])it.w=z[4]}S.food.items.push(it)})});sv();draw()});
-bt(function(){return cu().u!=null?tr("ped"):tr("pcp")}(),function(){var p=cu();if(p.u!=null)EP=p.u;else{var q=pln(p.t).map(function(m){var n=en()?m[1]:m[0];return[n,n,m[2].map(function(z){var x=F[z[0]];return[z[0],z[1],x[8]?x[7]:""]})]});(S.up=S.up||[]).push({n:pnm(p)+" *",own:1,m:q});EP=S.up.length-1}sv();draw()},1);
+bt(tr("ped"),function(){EP=cu().u;draw()},1);
+bt(tr("pcp"),function(){var p=cu(),q=JSON.parse(JSON.stringify(p.t));q.n=p.t.n+" *";S.up.push(q);EP=S.up.length-1;sv();draw()},1);
 bt(tr("pdl2"),function(){var p=cu();if(!confirm(tr("sure")))return;if(p.u!=null)S.up.splice(p.u,1);else(S.hp=S.hp||[]).push(p.d);PI=0;sv();draw()},1)}
-bt(tr("pmn"),function(){(S.up=S.up||[]).push({n:tr("pnm0"),own:1,m:[]});EP=S.up.length-1;sv();draw()},1);
-if((S.hp||[]).length)bt(tr("prs"),function(){S.hp=[];sv();draw()},1)}
+bt(tr("pmn"),function(){(S.up=S.up||[]).push({n:tr("pnm0"),own:1,m:[]});EP=S.up.length-1;sv();draw()},1)}
 var EM=0;
 function xnm(id){return en()?XE[id][0]:X[id][0]}
 function picker(ph,cb){var d=E("div",""),g=E("select"),x=E("select");d.style.display="flex";d.style.gap="6px";d.style.marginTop="8px";
